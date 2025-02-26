@@ -19,7 +19,8 @@ plot_tree_data <- function(treeData4, treeData3 = NULL, ingrowth = TRUE, tree_la
       dplyr::mutate(status = dplyr::case_match(
         as.character(tree_ifn4),
         c("0") ~ "Cut",
-        c("888","999") ~ "Dead",
+        c("888") ~ "Dead",
+        c("999")~ "Error",
         .default = "Alive",
       ))
     td_cut <- td |>
@@ -59,7 +60,7 @@ plot_tree_data <- function(treeData4, treeData3 = NULL, ingrowth = TRUE, tree_la
         scale_size_binned("DBH (cm)", limits = c(7.5, NA)) + 
         scale_color_discrete("Species")+
         scale_fill_discrete("Species")+
-        scale_shape_manual("Status", values = c("Alive" = 16, "Dead" = 8, "Cut" = 1))+
+        scale_shape_manual("Status", values = c("Alive" = 16, "Dead" = 8, "Cut" = 1,"Error" = 0.5))+
         guides(size = guide_bins(direction = "horizontal"))
     }
   }
