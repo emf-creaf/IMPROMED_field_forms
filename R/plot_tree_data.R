@@ -1,5 +1,6 @@
 library(ggplot2)
 library(ggforce)
+library(ggrepel)
 plot_tree_data <- function(treeData4, treeData3 = NULL, ingrowth = TRUE, tree_labels = TRUE) {
   lty <- "dotted"
   g <- ggplot()+
@@ -54,7 +55,7 @@ plot_tree_data <- function(treeData4, treeData3 = NULL, ingrowth = TRUE, tree_la
                    data = td)
       if(tree_labels) {
         g <- g +
-          geom_text_repel(aes(x = x, y = y, label = tree_ifn4), 
+          ggrepel::geom_text_repel(aes(x = x, y = y, label = tree_ifn4), 
                           size = 4, 
                           data = td,
                           box.padding = 0.5,  # Ajusta el espacio entre las etiquetas y los puntos
