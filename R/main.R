@@ -16,6 +16,10 @@ IDs <- plots_ph$id_unique_code
 for(id in IDs)  {
   output_dir <- file.path("forms", id)
   if(!dir.exists(output_dir)) dir.create(output_dir)
-  rmarkdown::render(input = "Rmd/_child_map.Rmd",output_file = file.path("..", output_dir, "plot_location.pdf"))
+  rmarkdown::render(input = "Rmd/_child_map.Rmd",output_file = file.path("..", output_dir, "plot_location.html"))
+  # Convierte el HTML generado a PDF
+  pagedown::chrome_print(paste0("forms/", id, "/plot_location.html"))
 }
+
+
 

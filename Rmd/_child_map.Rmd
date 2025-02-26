@@ -2,7 +2,7 @@
 title: "Plot location"
 author: "Miquel De Cáceres/Adriana Tovar"
 date: "2025-02-26"
-output: pdf_document
+output: html_document
 ---
 
 ```{r setup, include=FALSE}
@@ -11,7 +11,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Plot location
 
-```{r, echo=FALSE, fig = TRUE, fig.width=8, fig.height = 3, warning=FALSE}
+```{r, echo=FALSE, fig = TRUE, fig.width=16, fig.height = 9, warning=FALSE}
 i <- which(plots_cat$id_unique_code==id)
 treeData4 <- plots_cat$tree[[i]]
 treeData3 <- NULL

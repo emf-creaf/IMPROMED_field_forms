@@ -19,18 +19,19 @@ plot_tree_data <- function(treeData4, treeData3 = NULL, ingrowth = TRUE, tree_la
       dplyr::mutate(status = dplyr::case_match(
         as.character(tree_ifn4),
         c("0") ~ "Cut",
-        c("888","999") ~ "Dead",
+        c("888") ~ "Dead",
+        c("999") ~ "Error",
         .default = "Alive",
       ))
     td_cut <- td |>
-      dplyr::filter(status=="Cut")
+      dplyr::filter(status %in% c("Cut", "Error"))
     
     if(nrow(td_cut)>0 && !is.null(treeData3)) {
       td_cut <- td_cut |>
         dplyr::select(-distance, -azimuth, -dbh, -sp_name) |>
         dplyr::left_join(treeData3[,c("tree_ifn3", "distance", "azimuth", "dbh", "sp_name")], by=c("tree_ifn3"="tree_ifn3"))
       td <- td |>
-        dplyr::filter(status != "Cut") 
+        dplyr::filter(!(status %in% c("Cut", "Error")))
       td <- dplyr::bind_rows(td, td_cut) 
     }
     td <- td |>
@@ -53,17 +54,31 @@ plot_tree_data <- function(treeData4, treeData3 = NULL, ingrowth = TRUE, tree_la
                    data = td)
       if(tree_labels) {
         g <- g +
-          geom_text(aes(x = x, y = y, label = tree_ifn4), size = 2, data = td)
+          geom_text_repel(aes(x = x, y = y, label = tree_ifn4), 
+                          size = 4, 
+                          data = td,
+                          box.padding = 0.5,  # Ajusta el espacio entre las etiquetas y los puntos
+                          max.overlaps = 0) 
       }
       g <- g +
-        scale_size_binned("DBH (cm)", limits = c(7.5, NA)) + 
+        scale_size_binned("DBH (cm)", range = c(1, 15))+
         scale_color_discrete("Species")+
         scale_fill_discrete("Species")+
-        scale_shape_manual("Status", values = c("Alive" = 16, "Dead" = 8, "Cut" = 1))+
+        scale_shape_manual("Status", values = c("Alive" = 16, "Dead" = 8, "Cut" = 1, "Error" = 0.5))+
         guides(size = guide_bins(direction = "horizontal"))
     }
   }
   g <- g +
-    theme_classic()
+    theme_classic() +
+    theme(
+      legend.position = "bottom",  # Ubica la leyenda abajo
+      legend.direction = "horizontal",
+      legend.box = "horizontal",
+      legend.text = element_text(size = 14),  # Escalar texto de la leyenda
+      legend.title = element_text(size = 14), 
+      # legend.margin = margin(t = 5, b = 5, l = 5, r = 5),
+      # plot.margin = margin(t = 2, r = 2, b = 2, l = 20, unit = "cm")  # Asegura que el eje Y esté a 2 cm de la izquierda
+    )
   return(g)
 }
+
