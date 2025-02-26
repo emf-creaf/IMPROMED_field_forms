@@ -1,4 +1,5 @@
 library(forestables)
+library(readr)
 
 source("R/plot_tree_data.R")
 load("data-raw/ifn4_cat.Rdata")
@@ -7,7 +8,10 @@ ifn3_cat <- rbind(readRDS("data-raw/ifn3_08.rds"),
                   readRDS("data-raw/ifn3_25.rds"),
                   readRDS("data-raw/ifn3_43.rds"))
 
-IDs <- plots_cat$id_unique_code[c(1000, 2000, 2100, 2020)]
+plots_ph <- readr::read_csv("data-raw/pinhal_objectiu.csv") |> 
+  dplyr::rename(id_unique_code = id_unique_)
+
+IDs <- plots_ph$id_unique_code
 
 for(id in IDs)  {
   output_dir <- file.path("forms", id)
