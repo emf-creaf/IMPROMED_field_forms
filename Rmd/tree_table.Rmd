@@ -35,6 +35,7 @@ treeData4 <- plots_cat$tree[[i]]
 
 #### `r paste0("Número de la parcela: ",id)`
 ####### id: Standing dead are recorded as 888
+
 ```{r, echo=FALSE, warning=FALSE}
 
 treeData4_table<- treeData4 |> 
@@ -57,6 +58,52 @@ treeData4_table<- treeData4 |>
     tree_ifn4
     )
   
+
+
+```
+
+```{r, echo=FALSE, warning=FALSE}
+
+# Crear un nuevo data.frame con las mismas columnas y filas, pero celdas vacías
+empty_table <- treeData4_table  |> 
+  dplyr::select(
+    id_new,
+    dbh_new,
+    green_pct,
+    brown_pct,
+    causal_agent,
+    snag_status
+  ) |> 
+  dplyr::mutate(across(everything(), ~ ""))  # Rellenar todas las celdas con vacío
+
+# Establecer una nueva cabecera similar a la de la tabla anterior (puedes modificarla si es necesario)
+colnames(empty_table) <- c("id_new", "dbh_new", "green_pct", "brown_pct",  "causal_agent", "snag_status") 
+
+# Asegurarse de que la tabla tenga al menos 30 filas
+num_rows <- nrow(empty_table)
+
+if (num_rows < 30) {
+  # Añadir filas vacías hasta llegar a 30
+  extra_rows <- 30 - num_rows
+  
+  # Crear filas vacías con las mismas columnas
+  empty_rows <- data.frame(matrix(rep("", extra_rows * ncol(empty_table)), 
+                                  nrow = extra_rows, 
+                                  ncol = ncol(empty_table)))
+  
+  # Asignar los nombres de las columnas correctamente
+  colnames(empty_rows) <- colnames(empty_table)
+  
+  # Unir las filas vacías con la tabla original
+  empty_table <- rbind(empty_table, empty_rows)
+}
+
+
+
+```
+
+
+```{r, echo=FALSE, warning=FALSE}
 # Crear la tabla con kableExtra
 knitr::kable(treeData4_table, caption = "Tree table", format = "html") |> 
   kableExtra::kable_styling(
@@ -66,8 +113,13 @@ knitr::kable(treeData4_table, caption = "Tree table", format = "html") |>
     font_size = 8  # Tamaño de fuente más pequeño
   ) |> 
   kableExtra::column_spec(1:ncol(treeData4_table), border_left = TRUE, border_right = TRUE)
+# Crear la tabla con kableExtra para la nueva tabla vacía
 
-```
-
-
-
+knitr::kable(empty_table, format = "html") |> 
+  kableExtra::kable_styling(
+    bootstrap_options = c("striped", "hover"),
+    full_width = TRUE,  # La tabla ocupará todo el espacio disponible
+    position = "center",
+    font_size = 8  # Tamaño de fuente más pequeño
+  ) |> 
+  kableExtra::column_spec(1:ncol(empty_table), border_left = TRUE, border_right = TRUE)

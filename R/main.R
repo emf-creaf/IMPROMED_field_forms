@@ -58,7 +58,7 @@ for(id in IDs[1])  {
   pagedown::chrome_print(paste0("forms/", id, "/plot_location.html"))
 }
 
-for(id in IDs)  {
+for(id in IDs[1])  {
   output_dir <- file.path("forms", id)
   if(!dir.exists(output_dir)) dir.create(output_dir)
   rmarkdown::render(input = "Rmd/tree_table.Rmd",output_file = file.path("..", output_dir, "tree_table.html"))
@@ -71,6 +71,6 @@ for(id in IDs[1:3])  {
   if(!dir.exists(output_dir)) dir.create(output_dir)
   rmarkdown::render(input = "Rmd/regen_table.Rmd",output_file = file.path("..", output_dir, "regen_table.html"))
   # Convierte el HTML generado a PDF
-  pagedown::chrome_print(paste0("forms/", id, "/regen_table.html"))
+  pagedown::chrome_print(paste0("forms/", id, "/regen_table2.html"))
 }
 

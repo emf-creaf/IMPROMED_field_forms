@@ -113,7 +113,6 @@ regen_invertedData <- regenData4 |>
 
 regen_Datatable<- regen_invertedData |>
   dplyr::mutate(
-    id_new = " ",
     sp_new = " ",
     CatDes_new = " ",
     Abund_new= " ",
@@ -160,7 +159,6 @@ shrubData4<-plots_cat$understory[[i]]$shrub[[1]]
 
 shrubData_table<- shrubData4 |> 
   dplyr::mutate(
-    id_new = " ",
     sp_new = " ",
     height_new = " ",
     cover_new  =  " "
@@ -183,6 +181,44 @@ shrubData_table<- shrubData4 |>
 
 ```
 
+
+```{r, echo=FALSE, warning=FALSE}
+
+# Crear un nuevo data.frame con las mismas columnas y filas, pero celdas vacías
+empty_table <- regen_Datatable  |> 
+  dplyr::select(
+    sp_new,
+    CatDes_new,
+    Abund_new, 
+    Num_new,    
+    height_new
+  ) |> 
+  dplyr::mutate(across(everything(), ~ ""))  # Rellenar todas las celdas con vacío
+# Asegurarse de que la tabla tenga al menos 30 filas
+num_rows <- nrow(empty_table)
+
+if (num_rows < 30) {
+  # Añadir filas vacías hasta llegar a 30
+  extra_rows <- 30 - num_rows
+  
+  # Crear filas vacías con las mismas columnas
+  empty_rows <- data.frame(matrix(rep("", extra_rows * ncol(empty_table)), 
+                                  nrow = extra_rows, 
+                                  ncol = ncol(empty_table)))
+  
+  # Asignar los nombres de las columnas correctamente
+  colnames(empty_rows) <- colnames(empty_table)
+  
+  # Unir las filas vacías con la tabla original
+  empty_table <- rbind(empty_table, empty_rows)
+}
+
+
+
+
+```
+
+
 ```{r, echo=FALSE, warning=FALSE}
 # Mostrar ambas tablas
 
@@ -203,3 +239,12 @@ knitr::kable(shrubData_table, caption = "Shrub table", format = "html") |>
     font_size = 8
   ) |> 
   kableExtra::column_spec(1:ncol(shrubData_table), border_left = TRUE, border_right = TRUE)
+# Crear la tabla con kableExtra para la nueva tabla vacía
+knitr::kable(empty_table, format = "html") |> 
+  kableExtra::kable_styling(
+    bootstrap_options = c("striped", "hover"),
+    full_width = TRUE,  # La tabla ocupará todo el espacio disponible
+    position = "center",
+    font_size = 8  # Tamaño de fuente más pequeño
+  ) |> 
+  kableExtra::column_spec(1:ncol(empty_table), border_left = TRUE, border_right = TRUE)
