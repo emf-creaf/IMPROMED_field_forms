@@ -51,6 +51,7 @@ for (id in IDs) {
       input = file.path("D:/IMPROMED_field_forms/", qmd_file),  # Ruta completa del archivo .qmd
       output_format = "html",  # Formato de salida
       output_file = file_name,  # Nombre del archivo de salida
+      quarto_args = paste0("--output-dir D:/IMPROMED_field_forms/forms/", id, "/", file_name),
       execute_params = list(id = id, plots_cat = plots_cat, ifn3_cat = ifn3_cat),
       debug = TRUE
     )

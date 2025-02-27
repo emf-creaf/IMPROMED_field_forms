@@ -15,10 +15,12 @@ output: plot_location.html
 #| fig-width: 8
 #| fig-height: 3
 #| warning: false
-
 plots_cat <- params$plots_cat
 ifn3_cat <- params$ifn3_cat
 id <- params$id
+
+print(id)
+print(plots_cat)
 
 id = "08_1677_NN_A1_A1"
 i <- which(plots_cat$id_unique_code == id)
