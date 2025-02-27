@@ -1,0 +1,205 @@
+---
+# title: "Tree table"
+# author: "Miquel de Cáceres/ Adriana Tovar"
+date: "2025-02-27"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(dplyr)
+library(knitr)
+library(kableExtra)
+```
+
+## Regen  and shrub sampling
+
+```{r, echo=FALSE, include=FALSE}
+
+i <- which(plots_cat$id_unique_code==id)
+
+ 
+regenData4 <- plots_cat$regen[[i]]
+
+#option 1 
+regen_invertedData <- regenData4 |>
+  dplyr::mutate(
+    # Revertir `dbh`
+    CatDes = dplyr::case_when(
+      dbh == 0.1 ~ 1,
+      dbh == 0.5 ~ 2,
+      dbh == 1.5 ~ 3,
+      dbh == 5 ~ 4,
+      TRUE ~ NA_real_
+    ),
+    # Revertir `height`
+    height = dplyr::case_when(
+      CatDes == 1 ~ NA_real_,
+      CatDes == 2 ~ NA_real_,
+      CatDes == 3 ~ NA_real_,
+      CatDes == 4 ~ height,
+      TRUE ~ NA_real_
+    ),
+    # Revertir `n` (dependiendo de Densidad y CatDes)
+    Num = dplyr::case_when(
+      .data$CatDes == 4 ~ (n / density_factor)  ,
+      TRUE ~ NA_real_
+    ),
+    Abund = dplyr::case_when(
+  CatDes != 4 & (n == 2.5) ~ 1,
+  CatDes != 4 & (n / density_factor) == 2.5 ~ 1,
+  CatDes != 4 & (n / density_factor) == 10 ~ 2,
+  CatDes != 4 & (n / density_factor) >= 20 ~ 3,
+  TRUE ~ NA_real_  # Agregar un valor por defecto si ninguna de las condiciones se cumple
+)) |> 
+  dplyr::select(-n, -density_factor, - dbh)  |> 
+  dplyr::select(sp_name,sp_code,height,CatDes,Num,Abund)
+  
+#  
+# #option 2
+# data_transformed <- regen_invertedData |> 
+#  
+#   # Mantener `height` y `Num` solo para CatDes == 4
+#   dplyr::mutate(
+#     height_c4 = ifelse(CatDes == 4, height, NA),
+#     Abund = ifelse(CatDes == 4, Num, Abund),
+#     # Eliminar las columnas originales de `height` y `Num`
+#     height = NULL,
+#     Num = NULL
+#   ) |> 
+#    # Crear columnas de Abundancia separadas por CatDes
+#   tidyr::pivot_wider(
+#     names_from = CatDes,  # Los valores de CatDes se convierten en las nuevas columnas
+#     values_from = Abund,  # Los valores que queremos distribuir son 'Abund'
+#     names_prefix = "CatDes",  # Prefijo para las nuevas columnas
+#     values_fill = list(Abund = NA)  # Rellenar los valores vacíos con NA
+#   ) |> 
+#   dplyr::group_by(sp_name) |> 
+#   # Rellenar los valores de height_c4 y Abund_c4 para todas las filas
+#   tidyr::fill(height_c4, .direction = "downup") |> 
+#   tidyr::fill(CatDes4, .direction = "downup") |> 
+#   tidyr::fill(CatDes3, .direction = "downup") |> 
+#   tidyr::fill(CatDes2, .direction = "downup") |>
+#   tidyr::fill(CatDes1, .direction = "downup") |>
+#   unique() |> 
+#   dplyr::select(
+#     sp_name,
+#     sp_code,
+#     CatDes1,
+#     CatDes2,
+#     CatDes3,
+#     CatDes4,
+#     height_c4
+#   )
+# # Mostrar el resultado
+# head(data_transformed)
+
+
+
+```
+
+| Persona | Localidad | Hora | Fecha |
+|---------|-----------|------|-------|
+|         |           |      |       |
+
+<br>
+<br>
+<br>
+
+
+#### `r paste0("Número de la parcela: ",id)`
+
+```{r, echo=FALSE, warning=FALSE}
+
+regen_Datatable<- regen_invertedData |>
+  dplyr::mutate(
+    id_new = " ",
+    sp_new = " ",
+    CatDes_new = " ",
+    Abund_new= " ",
+    Num_new = " ",
+    height_new = " "
+    ) |>
+  dplyr::arrange(
+    sp_name,
+    CatDes
+    )
+
+# #opcion 2
+# regen_Datatable<-data_transformed |> 
+#   dplyr::mutate(
+#     id_new = " ",
+#     sp_new = " ",
+#     CatDes1_new = " ",
+#     CatDes2_new = " ",
+#     CatDes3_new = " ",
+#     CatDes4_new = " ",
+#     height_new = " "
+#     ) |> 
+#   dplyr::arrange( 
+#     sp_name
+#     )
+  
+# Crear la tabla con kableExtra
+# knitr::kable(regen_Datatable, caption = "Regen table", format = "html") |> 
+#   kableExtra::kable_styling(
+#     bootstrap_options = c("striped", "hover"),
+#     full_width = TRUE,  # La tabla ocupará todo el espacio disponible
+#     position = "center",
+#     font_size = 8  # Tamaño de fuente más pequeño
+#   ) |> 
+#   kableExtra::column_spec(1:ncol(regen_Datatable), border_left = TRUE, border_right = TRUE)
+
+```
+
+
+
+```{r, echo=FALSE, warning=FALSE}
+
+shrubData4<-plots_cat$understory[[i]]$shrub[[1]]
+
+shrubData_table<- shrubData4 |> 
+  dplyr::mutate(
+    id_new = " ",
+    sp_new = " ",
+    height_new = " ",
+    cover_new  =  " "
+    ) |> 
+  dplyr::arrange( 
+    sp_name,
+    cover
+    )
+  
+# # Crear la tabla con kableExtra
+# knitr::kable(shrubData_table, caption = "Shrub table", format = "html") |> 
+#   kableExtra::kable_styling(
+#     bootstrap_options = c("striped", "hover"),
+#     full_width = TRUE,  # La tabla ocupará todo el espacio disponible
+#     position = "center",
+#     font_size = 8  # Tamaño de fuente más pequeño
+#   ) |> 
+#   kableExtra::column_spec(1:ncol(shrubData_table), border_left = TRUE, border_right = TRUE)
+
+
+```
+
+```{r, echo=FALSE, warning=FALSE}
+# Mostrar ambas tablas
+
+knitr::kable(regen_Datatable, caption = "Regen table", format = "html") |> 
+  kableExtra::kable_styling(
+    bootstrap_options = c("striped", "hover"),
+    full_width = TRUE,
+    position = "center",
+    font_size = 8
+  ) |> 
+  kableExtra::column_spec(1:ncol(regen_Datatable), border_left = TRUE, border_right = TRUE)
+
+knitr::kable(shrubData_table, caption = "Shrub table", format = "html") |> 
+  kableExtra::kable_styling(
+    bootstrap_options = c("striped", "hover"),
+    full_width = TRUE,
+    position = "center",
+    font_size = 8
+  ) |> 
+  kableExtra::column_spec(1:ncol(shrubData_table), border_left = TRUE, border_right = TRUE)

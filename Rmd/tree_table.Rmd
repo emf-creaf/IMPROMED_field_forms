@@ -1,0 +1,73 @@
+---
+# title: "Tree table"
+# author: "Miquel de Cáceres/ Adriana Tovar"
+date: "2025-02-27"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(dplyr)
+library(knitr)
+library(kableExtra)
+```
+
+## Tree sampling
+
+```{r, echo=FALSE, include=FALSE}
+
+i <- which(plots_cat$id_unique_code==id)
+
+
+treeData4 <- plots_cat$tree[[i]]
+
+
+```
+
+| Persona | Localidad | Hora | Fecha |
+|---------|-----------|------|-------|
+|         |           |      |       |
+
+<br>
+<br>
+<br>
+
+
+#### `r paste0("Número de la parcela: ",id)`
+####### id: Standing dead are recorded as 888
+```{r, echo=FALSE, warning=FALSE}
+
+treeData4_table<- treeData4 |> 
+  dplyr::select(
+    tree_ifn4,
+    sp_name,
+    sp_code,
+    height,
+    dbh
+  ) |> 
+  dplyr::mutate(
+    id_new = " ",
+    dbh_new = " ",
+    green_pct = " ",
+    brown_pct = " ",
+    causal_agent = " ", 
+    snag_status = " "
+    ) |> 
+  dplyr::arrange( 
+    tree_ifn4
+    )
+  
+# Crear la tabla con kableExtra
+knitr::kable(treeData4_table, caption = "Tree table", format = "html") |> 
+  kableExtra::kable_styling(
+    bootstrap_options = c("striped", "hover"),
+    full_width = TRUE,  # La tabla ocupará todo el espacio disponible
+    position = "center",
+    font_size = 8  # Tamaño de fuente más pequeño
+  ) |> 
+  kableExtra::column_spec(1:ncol(treeData4_table), border_left = TRUE, border_right = TRUE)
+
+```
+
+
+
