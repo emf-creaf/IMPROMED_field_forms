@@ -34,7 +34,7 @@ plots_ph_wgs <- plots_ph_wgs |>
 
 IDs <- plots_ph$id_unique_code
 
-for(id in IDs)  {
+for(id in IDs[1])  {
   output_dir <- file.path("forms", id)
   if(!dir.exists(output_dir)) dir.create(output_dir)
   rmarkdown::render(input = "Rmd/_child_map.Rmd",output_file = file.path("..", output_dir, "plot_location.html"))

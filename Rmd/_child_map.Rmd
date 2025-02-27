@@ -9,13 +9,8 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-| Persona | Localidad | Hora | Fecha |
-|---------|-----------|------|-------|
-|         |           |      |       |
 
-## Plot location
-
-```{r, echo=FALSE, fig = TRUE, fig.width=16, fig.height = 9, warning=FALSE}
+```{r, echo=FALSE, include=FALSE}
 i <- which(plots_cat$id_unique_code==id)
 
 
@@ -29,9 +24,35 @@ coords<-plots_ph_wgs |>
   dplyr::select(lon,lat) 
 
 # Mostrar el id y las coordenadas en el reporte
-cat(" Número de parcela: ", id, "\n")
-cat("Coordenadas de la parcela en LAT, LON: (", coords$lon, ", ", coords$lat, ")\n")
+# cat(" Número de parcela: ", id, "\n")
+# cat("Coordenadas de la parcela en LAT, LON: (", coords$lon, ", ", coords$lat, ")\n")
 
 if(length(sel3) == 1) treeData3 <- ifn3_cat$tree[[sel3]]
+
+```
+
+| Persona | Localidad | Hora | Fecha |
+|---------|-----------|------|-------|
+|         |           |      |       |
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+#### `r id`
+
+#### `r paste0("Coordenadas de la parcela en LAT, LON: (", coords$lon, ", ", coords$lat, ")")`
+
+## Plot location
+
+
+```{r, echo=FALSE, fig = TRUE, fig.width=16, fig.height = 9, warning=FALSE}
 plot_tree_data(treeData4, treeData3)
 ```
+
