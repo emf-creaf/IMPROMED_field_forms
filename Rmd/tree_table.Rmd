@@ -42,15 +42,15 @@ treeData4_table<- treeData4 |>
   dplyr::select(
     tree_ifn4,
     sp_name,
-    sp_code,
     height,
-    dbh
+    dbh_ifn4 =dbh
   ) |> 
   dplyr::mutate(
-    id_new = " ",
-    dbh_new = " ",
-    green_pct = " ",
-    brown_pct = " ",
+    id = " ",
+    sp = " ",
+    dbh = " ",
+    green_percentage = " ",
+    brown_percentage = " ",
     causal_agent = " ", 
     snag_status = " "
     ) |> 
@@ -67,17 +67,18 @@ treeData4_table<- treeData4 |>
 # Crear un nuevo data.frame con las mismas columnas y filas, pero celdas vacías
 empty_table <- treeData4_table  |> 
   dplyr::select(
-    id_new,
-    dbh_new,
-    green_pct,
-    brown_pct,
+    id,
+    sp,
+    dbh,
+    green_percentage,
+    brown_percentage,
     causal_agent,
     snag_status
   ) |> 
   dplyr::mutate(across(everything(), ~ ""))  # Rellenar todas las celdas con vacío
 
 # Establecer una nueva cabecera similar a la de la tabla anterior (puedes modificarla si es necesario)
-colnames(empty_table) <- c("id_new", "dbh_new", "green_pct", "brown_pct",  "causal_agent", "snag_status") 
+colnames(empty_table) <- c("id", "sp", "dbh", "green_percentage", "brown_percentage",  "causal_agent", "snag_status") 
 
 # Asegurarse de que la tabla tenga al menos 30 filas
 num_rows <- nrow(empty_table)

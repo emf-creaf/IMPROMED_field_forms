@@ -14,6 +14,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ```{r, echo=FALSE, include=FALSE}
 library(ggplot2)
 library(dplyr)
+
 i <- which(plots_cat$id_unique_code==id)
 
 
@@ -41,24 +42,24 @@ if(length(sel3) == 1) treeData3 <- ifn3_cat$tree[[sel3]]
 |---------|-----------|------|-------|
 |         |           |      |       |
 
-<br>
-<br>
-<br>
+<br> <br> <br>
 
 ###### `r paste0("Municipio: ",municipio)`
 
 ###### `r paste0("Número de la parcela: ",id)`
 
 ###### `r paste0("Coordenadas de la parcela en  LON ,LAT: (", coords$lon_wgs84 , ", ", coords$lat_wgs84 , ")")`
+
 ###### `r paste0("Coordenadas de la parcela en  UTM ED50: (", coords$coordx_ed50  , ", ", coords$coordy_ed50  , ")")`
 
-###### Coordenadas GPS: 
+###### Coordenadas GPS:
+
 <br>
 
 ###### Comentarios:
+
 <br>
 
 ```{r, echo=FALSE, fig = TRUE, fig.width=40, fig.height = 25, warning=FALSE}
 plot_tree_data(treeData4, treeData3,scale_factor = 2.5)
 ```
-
