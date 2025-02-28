@@ -9,13 +9,11 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-| Persona | Localidad | Hora | Fecha |
-|---------|-----------|------|-------|
-|         |           |      |       |
-
 ## Plot location
 
-```{r, echo=FALSE, fig = TRUE, fig.width=16, fig.height = 9, warning=FALSE}
+```{r, echo=FALSE, include=FALSE}
+library(ggplot2)
+library(dplyr)
 i <- which(plots_cat$id_unique_code==id)
 
 
@@ -26,12 +24,41 @@ sel3 <- which(ifn3_cat$id_unique_code==id)
 coords<-plots_ph_wgs |> 
   dplyr::filter(id_unique_code  == id
   ) |> 
-  dplyr::select(lon,lat) 
+  dplyr::select(lon_wgs84 ,lat_wgs84,coordx_ed50,coordy_ed50  ) 
 
-# Mostrar el id y las coordenadas en el reporte
-cat(" Número de parcela: ", id, "\n")
-cat("Coordenadas de la parcela en LAT, LON: (", coords$lon, ", ", coords$lat, ")\n")
+
+municipio<-plots_ph_wgs |> 
+  data.frame() |> 
+  dplyr::filter(id_unique_code  == id
+  ) |> 
+  dplyr::select(NOMMUNI) |> pull()
 
 if(length(sel3) == 1) treeData3 <- ifn3_cat$tree[[sel3]]
-plot_tree_data(treeData4, treeData3)
+
 ```
+
+| Persona | Localidad | Hora | Fecha |
+|---------|-----------|------|-------|
+|         |           |      |       |
+
+<br>
+<br>
+<br>
+
+###### `r paste0("Municipio: ",municipio)`
+
+###### `r paste0("Número de la parcela: ",id)`
+
+###### `r paste0("Coordenadas de la parcela en  LON ,LAT: (", coords$lon_wgs84 , ", ", coords$lat_wgs84 , ")")`
+###### `r paste0("Coordenadas de la parcela en  UTM ED50: (", coords$coordx_ed50  , ", ", coords$coordy_ed50  , ")")`
+
+###### Coordenadas GPS: 
+<br>
+
+###### Comentarios:
+<br>
+
+```{r, echo=FALSE, fig = TRUE, fig.width=40, fig.height = 25, warning=FALSE}
+plot_tree_data(treeData4, treeData3,scale_factor = 2.5)
+```
+
