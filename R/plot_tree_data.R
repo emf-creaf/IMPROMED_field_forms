@@ -55,11 +55,19 @@ plot_tree_data <- function(treeData4, treeData3 = NULL, ingrowth = TRUE, tree_la
                    data = td)
       if(tree_labels) {
         g <- g +
-          ggrepel::geom_text_repel(aes(x = x, y = y, label = tree_ifn4), 
-                          size = 4, 
-                          data = td,
-                          box.padding = 0.5,  # Ajusta el espacio entre las etiquetas y los puntos
-                          max.overlaps = 0) 
+          ggrepel::geom_text_repel(aes(x = x, y = y, label = tree_ifn4),
+                      size = 5,                # Tamaño de las etiquetas
+                      box.padding = 0.5,         # Aumenta el padding alrededor de las etiquetas
+                      point.padding = 0.5,       # Aumenta el padding alrededor de los puntos
+                      force = 10,              # Aumenta la fuerza de repulsión aún más
+                      # nudge_x = 15,            # Empuja las etiquetas aún más a la derecha
+                      # nudge_y = 15,            # Empuja las etiquetas aún más hacia arriba
+                      segment.size = 0.5,      # Grosor de las flechas
+                      min.segment.length = 1,  # Alarga aún más las flechas
+                      max.overlaps = 20, # Permite más superposiciones, pero no elimina etiquetas
+                      direction = "both" ,
+                      max.iter = 1000, # Aumenta el número de iteraciones para encontrar una distribución adecuada
+                      data = td)
       }
       g <- g +
         scale_size_binned("DBH (cm)", range = c(1, 15))+
