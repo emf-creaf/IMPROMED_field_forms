@@ -20,7 +20,28 @@ i <- which(plots_cat$id_unique_code==id)
 
 
 treeData4 <- plots_cat$tree[[i]]
+ plots_tree <- plots_ph_wgs_All |> 
+   dplyr::filter(id_unique_code ==id) |> 
+      dplyr::select(id_unique_code,tree_data) |> 
+      tidyr::unnest(tree_data) |> 
+      dplyr::rename(tree_ifn4 = OrdenIf4, 
+                    tree_ifn3 = OrdenIf3,
+                    causal_agent =Agente,
+                    sp_code = "Especie") |> 
+      dplyr::mutate(
+        sp_code = as.character(as.numeric(sp_code)),
+        tree_ifn4 = as.integer(tree_ifn4),
+        tree_ifn3 = as.integer(tree_ifn3)
+      ) |> 
+   dplyr::select(
+     tree_ifn4, tree_ifn3, sp_code,causal_agent
+   )
 
+treeData4<-treeData4 |> 
+  dplyr::left_join(
+    plots_tree, 
+    by = c("tree_ifn4",
+  "tree_ifn3", "sp_code") )
 
 ```
 
@@ -43,15 +64,14 @@ treeData4_table<- treeData4 |>
     tree_ifn4,
     sp_name,
     height,
-    dbh_ifn4 =dbh
+    dbh_ifn4 = dbh,
+    causal_agent 
   ) |> 
   dplyr::mutate(
-    id = " ",
-    sp = " ",
     dbh = " ",
     green_percentage = " ",
     brown_percentage = " ",
-    causal_agent = " ", 
+    Causal_agent = " ", 
     snag_status = " "
     ) |> 
   dplyr::arrange( 
@@ -66,26 +86,31 @@ treeData4_table<- treeData4 |>
 
 # Crear un nuevo data.frame con las mismas columnas y filas, pero celdas vacías
 empty_table <- treeData4_table  |> 
+  dplyr::mutate(
+    id = " ",
+    sp = " ",
+  ) |> 
   dplyr::select(
     id,
     sp,
     dbh,
     green_percentage,
     brown_percentage,
-    causal_agent,
+    Causal_agent,
     snag_status
   ) |> 
+  
   dplyr::mutate(across(everything(), ~ ""))  # Rellenar todas las celdas con vacío
 
 # Establecer una nueva cabecera similar a la de la tabla anterior (puedes modificarla si es necesario)
-colnames(empty_table) <- c("id", "sp", "dbh", "green_percentage", "brown_percentage",  "causal_agent", "snag_status") 
+colnames(empty_table) <- c("id", "sp", "dbh", "green_percentage", "brown_percentage",  "Causal_agent", "snag_status") 
 
 # Asegurarse de que la tabla tenga al menos 30 filas
 num_rows <- nrow(empty_table)
 
-if (num_rows < 30) {
+if (num_rows < 60) {
   # Añadir filas vacías hasta llegar a 30
-  extra_rows <- 30 - num_rows
+  extra_rows <- 60 - num_rows
   
   # Crear filas vacías con las mismas columnas
   empty_rows <- data.frame(matrix(rep("", extra_rows * ncol(empty_table)), 
@@ -119,8 +144,11 @@ knitr::kable(treeData4_table, caption = "Tree table", format = "html") |>
 knitr::kable(empty_table, format = "html") |> 
   kableExtra::kable_styling(
     bootstrap_options = c("striped", "hover"),
-    full_width = TRUE,  # La tabla ocupará todo el espacio disponible
+    full_width = TRUE,  
     position = "center",
-    font_size = 8  # Tamaño de fuente más pequeño
+    font_size = 8  
   ) |> 
-  kableExtra::column_spec(1:ncol(empty_table), border_left = TRUE, border_right = TRUE)
+  kableExtra::column_spec(1, width = "80px", border_left = TRUE, border_right = TRUE) |>  # Primera columna
+  kableExtra::column_spec(2, width = "150px", border_left = TRUE, border_right = TRUE) |>  # Segunda columna (más ancha para dos palabras)
+  kableExtra::column_spec(3:ncol(empty_table), width = "80px", border_left = TRUE, border_right = TRUE)  # Otras columnas con espacio para 4 dígitos
+

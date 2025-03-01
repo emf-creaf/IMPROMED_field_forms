@@ -18,83 +18,6 @@ library(kableExtra)
 
 i <- which(plots_cat$id_unique_code==id)
 
- 
-regenData4 <- plots_cat$regen[[i]]
-
-#option 1 
-regen_invertedData <- regenData4 |>
-  dplyr::mutate(
-    # Revertir `dbh`
-    CatDes = dplyr::case_when(
-      dbh == 0.1 ~ 1,
-      dbh == 0.5 ~ 2,
-      dbh == 1.5 ~ 3,
-      dbh == 5 ~ 4,
-      TRUE ~ NA_real_
-    ),
-    # Revertir `height`
-    height = dplyr::case_when(
-      CatDes == 1 ~ NA_real_,
-      CatDes == 2 ~ NA_real_,
-      CatDes == 3 ~ NA_real_,
-      CatDes == 4 ~ height,
-      TRUE ~ NA_real_
-    ),
-    # Revertir `n` (dependiendo de Densidad y CatDes)
-    Num = dplyr::case_when(
-      .data$CatDes == 4 ~ (n / density_factor)  ,
-      TRUE ~ NA_real_
-    ),
-    Abund = dplyr::case_when(
-  CatDes != 4 & (n == 2.5) ~ 1,
-  CatDes != 4 & (n / density_factor) == 2.5 ~ 1,
-  CatDes != 4 & (n / density_factor) == 10 ~ 2,
-  CatDes != 4 & (n / density_factor) >= 20 ~ 3,
-  TRUE ~ NA_real_  # Agregar un valor por defecto si ninguna de las condiciones se cumple
-)) |> 
-  dplyr::select(-n, -density_factor, - dbh)  |> 
-  dplyr::select(sp_name,sp_code,height,CatDes,Num,Abund)
-  
-#  
-# #option 2
-# data_transformed <- regen_invertedData |> 
-#  
-#   # Mantener `height` y `Num` solo para CatDes == 4
-#   dplyr::mutate(
-#     height_c4 = ifelse(CatDes == 4, height, NA),
-#     Abund = ifelse(CatDes == 4, Num, Abund),
-#     # Eliminar las columnas originales de `height` y `Num`
-#     height = NULL,
-#     Num = NULL
-#   ) |> 
-#    # Crear columnas de Abundancia separadas por CatDes
-#   tidyr::pivot_wider(
-#     names_from = CatDes,  # Los valores de CatDes se convierten en las nuevas columnas
-#     values_from = Abund,  # Los valores que queremos distribuir son 'Abund'
-#     names_prefix = "CatDes",  # Prefijo para las nuevas columnas
-#     values_fill = list(Abund = NA)  # Rellenar los valores vacíos con NA
-#   ) |> 
-#   dplyr::group_by(sp_name) |> 
-#   # Rellenar los valores de height_c4 y Abund_c4 para todas las filas
-#   tidyr::fill(height_c4, .direction = "downup") |> 
-#   tidyr::fill(CatDes4, .direction = "downup") |> 
-#   tidyr::fill(CatDes3, .direction = "downup") |> 
-#   tidyr::fill(CatDes2, .direction = "downup") |>
-#   tidyr::fill(CatDes1, .direction = "downup") |>
-#   unique() |> 
-#   dplyr::select(
-#     sp_name,
-#     sp_code,
-#     CatDes1,
-#     CatDes2,
-#     CatDes3,
-#     CatDes4,
-#     height_c4
-#   )
-# # Mostrar el resultado
-# head(data_transformed)
-
-
 
 ```
 
@@ -111,43 +34,31 @@ regen_invertedData <- regenData4 |>
 
 ```{r, echo=FALSE, warning=FALSE}
 
-regen_Datatable<- regen_invertedData |>
-  dplyr::mutate(
-    sp_new = " ",
-    CatDes_new = " ",
-    Abund_new= " ",
-    Num_new = " ",
-    height_new = " "
-    ) |>
-  dplyr::arrange(
-    sp_name,
-    CatDes
-    )
 
-# #opcion 2
-# regen_Datatable<-data_transformed |> 
-#   dplyr::mutate(
-#     id_new = " ",
-#     sp_new = " ",
-#     CatDes1_new = " ",
-#     CatDes2_new = " ",
-#     CatDes3_new = " ",
-#     CatDes4_new = " ",
-#     height_new = " "
-#     ) |> 
-#   dplyr::arrange( 
-#     sp_name
-#     )
-  
-# Crear la tabla con kableExtra
-# knitr::kable(regen_Datatable, caption = "Regen table", format = "html") |> 
-#   kableExtra::kable_styling(
-#     bootstrap_options = c("striped", "hover"),
-#     full_width = TRUE,  # La tabla ocupará todo el espacio disponible
-#     position = "center",
-#     font_size = 8  # Tamaño de fuente más pequeño
-#   ) |> 
-#   kableExtra::column_spec(1:ncol(regen_Datatable), border_left = TRUE, border_right = TRUE)
+
+#opcion 2
+regen_Datatable <- data.frame() |>
+  dplyr::mutate(
+    sp_name = character(),
+    Catdes1 = character(),
+    Catdes2 = character(),
+    Catdes3 = character(),
+    Catdes4 = character(),
+    height_cat4 = character()
+  ) |>
+  dplyr::arrange(sp_name) 
+
+# Agregar 40 filas vacías
+regen_Datatable <- regen_Datatable |>
+  dplyr::bind_rows(data.frame(
+    sp_name = rep(" ", 40),
+    Catdes1 = rep(" ", 40),
+    Catdes2 = rep(" ", 40),
+    Catdes3 = rep(" ", 40),
+    Catdes4 = rep(" ", 40),
+    height_cat4 = rep(" ", 40)
+  ))
+
 
 ```
 
@@ -155,65 +66,22 @@ regen_Datatable<- regen_invertedData |>
 
 ```{r, echo=FALSE, warning=FALSE}
 
-shrubData4<-plots_cat$understory[[i]]$shrub[[1]]
 
-shrubData_table<- shrubData4 |> 
+  shrub_Datatable <- data.frame() |>
   dplyr::mutate(
-    sp_new = " ",
-    height_new = " ",
-    cover_new  =  " "
-    ) |> 
-  dplyr::arrange( 
-    sp_name,
-    cover
-    )
-  
-# # Crear la tabla con kableExtra
-# knitr::kable(shrubData_table, caption = "Shrub table", format = "html") |> 
-#   kableExtra::kable_styling(
-#     bootstrap_options = c("striped", "hover"),
-#     full_width = TRUE,  # La tabla ocupará todo el espacio disponible
-#     position = "center",
-#     font_size = 8  # Tamaño de fuente más pequeño
-#   ) |> 
-#   kableExtra::column_spec(1:ncol(shrubData_table), border_left = TRUE, border_right = TRUE)
+    sp_name = character(),
+    cover = character(),
+    height = character(),
+  ) |>
+  dplyr::arrange(sp_name) 
 
-
-```
-
-
-```{r, echo=FALSE, warning=FALSE}
-
-# Crear un nuevo data.frame con las mismas columnas y filas, pero celdas vacías
-empty_table <- regen_Datatable  |> 
-  dplyr::select(
-    sp_new,
-    CatDes_new,
-    Abund_new, 
-    Num_new,    
-    height_new
-  ) |> 
-  dplyr::mutate(across(everything(), ~ ""))  # Rellenar todas las celdas con vacío
-# Asegurarse de que la tabla tenga al menos 30 filas
-num_rows <- nrow(empty_table)
-
-if (num_rows < 30) {
-  # Añadir filas vacías hasta llegar a 30
-  extra_rows <- 30 - num_rows
-  
-  # Crear filas vacías con las mismas columnas
-  empty_rows <- data.frame(matrix(rep("", extra_rows * ncol(empty_table)), 
-                                  nrow = extra_rows, 
-                                  ncol = ncol(empty_table)))
-  
-  # Asignar los nombres de las columnas correctamente
-  colnames(empty_rows) <- colnames(empty_table)
-  
-  # Unir las filas vacías con la tabla original
-  empty_table <- rbind(empty_table, empty_rows)
-}
-
-
+# Agregar 40 filas vacías
+shrub_Datatable <- shrub_Datatable |>
+  dplyr::bind_rows(data.frame(
+    sp_name = rep(" ", 40),
+    cover = rep(" ", 40),
+    height = rep(" ", 40)
+  ))
 
 
 ```
@@ -231,20 +99,11 @@ knitr::kable(regen_Datatable, caption = "Regen table", format = "html") |>
   ) |> 
   kableExtra::column_spec(1:ncol(regen_Datatable), border_left = TRUE, border_right = TRUE)
 
-knitr::kable(shrubData_table, caption = "Shrub table", format = "html") |> 
+knitr::kable(shrub_Datatable, caption = "Shrub table", format = "html") |> 
   kableExtra::kable_styling(
     bootstrap_options = c("striped", "hover"),
     full_width = TRUE,
     position = "center",
     font_size = 8
   ) |> 
-  kableExtra::column_spec(1:ncol(shrubData_table), border_left = TRUE, border_right = TRUE)
-# Crear la tabla con kableExtra para la nueva tabla vacía
-knitr::kable(empty_table, format = "html") |> 
-  kableExtra::kable_styling(
-    bootstrap_options = c("striped", "hover"),
-    full_width = TRUE,  # La tabla ocupará todo el espacio disponible
-    position = "center",
-    font_size = 8  # Tamaño de fuente más pequeño
-  ) |> 
-  kableExtra::column_spec(1:ncol(empty_table), border_left = TRUE, border_right = TRUE)
+  kableExtra::column_spec(1:ncol(shrub_Datatable), border_left = TRUE, border_right = TRUE)

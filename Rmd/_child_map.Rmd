@@ -7,13 +7,15 @@ output: html_document
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+library(dplyr)
+library(knitr)
+library(kableExtra)
+library(ggplot2)
 ```
 
 ## Plot location
 
 ```{r, echo=FALSE, include=FALSE}
-library(ggplot2)
-library(dplyr)
 
 i <- which(plots_cat$id_unique_code==id)
 
@@ -54,12 +56,43 @@ if(length(sel3) == 1) treeData3 <- ifn3_cat$tree[[sel3]]
 
 ###### Coordenadas GPS:
 
-<br>
-
 ###### Comentarios:
-
-<br>
 
 ```{r, echo=FALSE, fig = TRUE, fig.width=40, fig.height = 25, warning=FALSE}
 plot_tree_data(treeData4, treeData3,scale_factor = 2.5)
 ```
+
+```{r, echo=FALSE,  warning=FALSE}
+
+plots_ph_topo<-plots_ph_wgs_All |> 
+  dplyr::filter(
+    id_unique_code == id
+  ) |> 
+  dplyr::select(
+    id = id_unique_code,
+    Localiza,
+    Acceso,
+    Levanta,
+    FccArb,
+    altitud,
+    Orienta1,
+    MaxPend1,
+    Rocosid
+  )
+```
+
+```{r, echo=FALSE,  warning=FALSE}
+knitr::kable(plots_ph_topo, caption = "Topo table", format = "html") |> 
+  kableExtra::kable_styling(
+    bootstrap_options = c("striped", "hover"),
+    full_width = TRUE,  # La tabla ocupará todo el espacio disponible
+    position = "center",
+    font_size = 8  # Tamaño de fuente más pequeño
+  ) |> 
+  kableExtra::column_spec(1:ncol(plots_ph_topo), border_left = TRUE, border_right = TRUE)
+
+```
+
+###### stratification
+
+###### 1 (0 \< H ≤ 1/4 Ho) [   ] 2 (1/4 \< H ≤ 1/2 Ho) [   ]3 (1/2 \< H ≤ 3/4 Ho) [   ] 4 (3/4 \< H ≤ Ho) [   ]5 ( Hem \> Ho) [   ]

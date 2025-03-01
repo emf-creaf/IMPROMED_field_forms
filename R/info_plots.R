@@ -1,4 +1,4 @@
-source("R/plot_tree_data.R")
+library(dplyr)
 load("data-raw/ifn4_cat.Rdata")
 ifn3_cat <- rbind(readRDS("data-raw/ifn3_08.rds"),
                   readRDS("data-raw/ifn3_17.rds"),
@@ -31,9 +31,9 @@ ENP <- sf::st_transform(ENP, crs = 23031)
 
 
   
-plots_ph<- sf::st_join( plots_ph,ENP |> 
-                dplyr::select(SITE_NAME,ODESIGNATE), join = sf::st_intersects) 
-
+# plots_ph<- sf::st_join( plots_ph,ENP |> 
+#                 dplyr::select(SITE_NAME,ODESIGNATE), join = sf::st_intersects) 
+# 
 
 # Extraer las coordenadas en ED50 (EPSG:23031) y guardarlas
 plots_ph <- plots_ph |>
@@ -129,13 +129,13 @@ plots_ph_wgs_All <- plots_ph_wgs |>
   ) |> 
   # Unir regDataIFN4_Catalunya y agrupar en un sub-data frame
   dplyr::left_join(regDataIFN4_Catalunya |> 
-                     select(Provincia, IDCLASE, Estadillo, Especie, CatDes, Densidad, NumPies, Hm), 
+                     dplyr::select(Provincia, IDCLASE, Estadillo, Especie, CatDes, Densidad, NumPies, Hm), 
                    by = c("Provincia", "Estadillo", "IDCLASE")) |>
   tidyr::nest(reg_data = c(Especie, CatDes, Densidad, NumPies, Hm)) |>  # Agrupar en reg_data
   
   # Unir shrubDataIFN4_Catalunya y agrupar en un sub-data frame
   dplyr::left_join(shrubDataIFN4_Catalunya |> 
-                     select(IDCLASE, Provincia, Estadillo, Especie, Fcc, Hm, Agente), 
+                     dplyr::select(IDCLASE, Provincia, Estadillo, Especie, Fcc, Hm, Agente), 
                    by = c("Provincia", "Estadillo", "IDCLASE")) |>
   tidyr::nest(shrub_data = c(Especie, Fcc, Hm, Agente)) |>  # Agrupar en shrub_data
   
