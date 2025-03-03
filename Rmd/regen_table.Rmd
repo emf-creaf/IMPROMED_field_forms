@@ -1,5 +1,5 @@
 ---
-# title: "Tree table"
+# title: "Regen table"
 # author: "Miquel de Cáceres/ Adriana Tovar"
 date: "2025-02-27"
 output: html_document
@@ -12,7 +12,7 @@ library(knitr)
 library(kableExtra)
 ```
 
-## Regen  and shrub sampling
+### Regen sampling
 
 ```{r, echo=FALSE, include=FALSE}
 
@@ -30,7 +30,9 @@ i <- which(plots_cat$id_unique_code==id)
 <br>
 
 
-#### `r paste0("Número de la parcela: ",id)`
+#### `r paste0("Número de la parcela: ")`
+
+#### Regeneration sampling within the 5m radius plot 
 
 ```{r, echo=FALSE, warning=FALSE}
 
@@ -65,32 +67,9 @@ regen_Datatable <- regen_Datatable |>
 
 
 ```{r, echo=FALSE, warning=FALSE}
-
-
-  shrub_Datatable <- data.frame() |>
-  dplyr::mutate(
-    sp_name = character(),
-    cover = character(),
-    height = character(),
-  ) |>
-  dplyr::arrange(sp_name) 
-
-# Agregar 40 filas vacías
-shrub_Datatable <- shrub_Datatable |>
-  dplyr::bind_rows(data.frame(
-    sp_name = rep(" ", 40),
-    cover = rep(" ", 40),
-    height = rep(" ", 40)
-  ))
-
-
-```
-
-
-```{r, echo=FALSE, warning=FALSE}
 # Mostrar ambas tablas
 
-knitr::kable(regen_Datatable, caption = "Regen table", format = "html") |> 
+knitr::kable(regen_Datatable,  format = "html") |> 
   kableExtra::kable_styling(
     bootstrap_options = c("striped", "hover"),
     full_width = TRUE,
@@ -98,12 +77,5 @@ knitr::kable(regen_Datatable, caption = "Regen table", format = "html") |>
     font_size = 8
   ) |> 
   kableExtra::column_spec(1:ncol(regen_Datatable), border_left = TRUE, border_right = TRUE)
+```
 
-knitr::kable(shrub_Datatable, caption = "Shrub table", format = "html") |> 
-  kableExtra::kable_styling(
-    bootstrap_options = c("striped", "hover"),
-    full_width = TRUE,
-    position = "center",
-    font_size = 8
-  ) |> 
-  kableExtra::column_spec(1:ncol(shrub_Datatable), border_left = TRUE, border_right = TRUE)

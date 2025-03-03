@@ -57,6 +57,12 @@ treeData4<-treeData4 |>
 #### `r paste0("Número de la parcela: ",id)`
 ####### id: Standing dead are recorded as 888
 
+R5  - [7.5,12.5) dbh;
+R10  - [12.5,22.5) dbh;
+R15  - [22.5,42.5) dbh;
+R25  - >=42.5 dbh
+
+
 ```{r, echo=FALSE, warning=FALSE}
 
 treeData4_table<- treeData4 |> 

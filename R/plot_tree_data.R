@@ -16,10 +16,10 @@ plot_tree_data <- function(treeData4, treeData3 = NULL, ingrowth = TRUE, tree_la
     ylab("y (m)")+ xlab("x (m)")+
     theme_classic() +
     theme(
-      axis.title.x = element_text(size = 36 * scale_factor),  # Escala el tamaño del título eje X
-      axis.title.y = element_text(size = 36 * scale_factor),  # Escala el tamaño del título eje Y
-      axis.text.x = element_text(size = 28 * scale_factor),   # Escala los valores del eje X
-      axis.text.y = element_text(size = 28* scale_factor)    # Escala los valores del eje Y
+      axis.title.x = element_text(size = 200 * scale_factor),  # Escala el tamaño del título eje X
+      axis.title.y = element_text(size = 200 * scale_factor),  # Escala el tamaño del título eje Y
+      axis.text.x = element_text(size = 200* scale_factor),   # Escala los valores del eje X
+      axis.text.y = element_text(size = 200* scale_factor)    # Escala los valores del eje Y
     )
   
   if(nrow(treeData4) > 0) {

@@ -58,6 +58,8 @@ if(length(sel3) == 1) treeData3 <- ifn3_cat$tree[[sel3]]
 
 ###### Comentarios:
 
+<br>
+
 ```{r, echo=FALSE, fig = TRUE, fig.width=40, fig.height = 25, warning=FALSE}
 plot_tree_data(treeData4, treeData3,scale_factor = 2.5)
 ```
@@ -95,4 +97,4 @@ knitr::kable(plots_ph_topo, caption = "Topo table", format = "html") |>
 
 ###### stratification
 
-###### 1 (0 \< H ≤ 1/4 Ho) [   ] 2 (1/4 \< H ≤ 1/2 Ho) [   ]3 (1/2 \< H ≤ 3/4 Ho) [   ] 4 (3/4 \< H ≤ Ho) [   ]5 ( Hem \> Ho) [   ]
+###### 1 (0 \< H ≤ 1/4 Ho) [ ] 2 (1/4 \< H ≤ 1/2 Ho) [ ]3 (1/2 \< H ≤ 3/4 Ho) [ ] 4 (3/4 \< H ≤ Ho) [ ]5 ( Hem \> Ho) [ ]

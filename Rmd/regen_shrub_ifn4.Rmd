@@ -100,10 +100,6 @@ regen_data_transformed <- regen_invertedData |>
 
 #### `r paste0("Número de la parcela: ",id)`
 
-```{r, echo=FALSE, warning=FALSE}
-
-```
-
 
 
 ```{r, echo=FALSE, warning=FALSE}

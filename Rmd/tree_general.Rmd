@@ -1,0 +1,81 @@
+---
+# title: "tree_general"
+# author: "Adriana Tovar"
+# date: "2025-03-03"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(dplyr)
+library(knitr)
+library(kableExtra)
+```
+
+```{css, echo=FALSE}
+  /* Ajustar la altura de las celdas */
+  .my-table td, .my-table th {
+    height: 40px; /* Ajusta la altura de las celdas */
+    vertical-align: middle;  /* Centra verticalmente el contenido */
+    text-align: center;      /* Centra el texto horizontalmente */
+  }
+
+```
+
+### Tree sampling
+
+| Persona | Localidad | Hora | Fecha |
+|---------|-----------|------|-------|
+|         |           |      |       |
+
+<br>
+
+#### `r paste0("Número de la parcela:")`
+
+####### id: Standing dead are recorded as 888
+
+R5  - [7.5,12.5) dbh;
+R10  - [12.5,22.5) dbh;
+R15  - [22.5,42.5) dbh;
+R25  - >=42.5 dbh
+
+```{r, echo=FALSE, warning=FALSE}
+
+#opcion 2
+tree_Datatable <- data.frame() |>
+  dplyr::mutate(
+    id = character(),
+    sp = character(),
+    dbh =  character(),
+    green_percentage =  character(),
+    brown_percentage =  character(),
+    Causal_agent = character(), 
+    snag_status =  character()
+    ) 
+
+
+# Agregar 60 filas vacías
+tree_Datatable <- tree_Datatable |>
+  dplyr::bind_rows(data.frame(
+    id = rep("   ", 40),
+    sp = rep("   ", 40),
+    dbh = rep("   ", 40),
+    green_percentage = rep("   ", 40),
+    brown_percentage = rep("   ", 40),
+    height_cat4 = rep("   ", 40),
+    Causal_agent = rep("   ", 40), 
+    snag_status = rep("    ", 40)
+  )) 
+  
+
+
+```
+
+
+```{r, echo=FALSE, warning=FALSE}
+ knitr::kable(tree_Datatable, format = "html") |> 
+  kableExtra::kable_styling( bootstrap_options = c("striped", "hover"), full_width = TRUE, position = "center", font_size = 10 ) |> 
+  kableExtra::column_spec(1, width = "80px", border_left = TRUE, border_right = TRUE) |> # Primera columna
+  kableExtra::column_spec(2, width = "150px", border_left = TRUE, border_right = TRUE) |> # Segunda columna (más ancha para dos palabras) 
+  kableExtra::column_spec(3:ncol(tree_Datatable), width = "80px", border_left = TRUE, border_right = TRUE) # Otras columnas con espacio para 4 dígitos
+```

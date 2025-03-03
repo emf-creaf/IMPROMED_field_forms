@@ -1,0 +1,62 @@
+---
+# title: "shrub_table"
+# author: "Adriana Tovar"
+# date: "2025-03-03"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(dplyr)
+library(knitr)
+library(kableExtra)
+```
+
+
+### Shrub sampling
+
+| Persona | Localidad | Hora | Fecha |
+|---------|-----------|------|-------|
+|         |           |      |       |
+
+<br>
+<br>
+<br>
+
+
+#### `r paste0("Número de la parcela: ")`
+
+#### Shrub sampling within the 10m radius plot 
+
+```{r, echo=FALSE, warning=FALSE}
+
+  shrub_Datatable <- data.frame() |>
+  dplyr::mutate(
+    sp_name = character(),
+    cover = character(),
+    height = character(),
+  ) |>
+  dplyr::arrange(sp_name) 
+
+# Agregar 40 filas vacías
+shrub_Datatable <- shrub_Datatable |>
+  dplyr::bind_rows(data.frame(
+    sp_name = rep(" ", 40),
+    cover = rep(" ", 40),
+    height = rep(" ", 40)
+  ))
+
+
+```
+
+
+```{r, echo=FALSE, warning=FALSE}
+knitr::kable(shrub_Datatable,  format = "html") |> 
+  kableExtra::kable_styling(
+    bootstrap_options = c("striped", "hover"),
+    full_width = TRUE,
+    position = "center",
+    font_size = 8
+  ) |> 
+  kableExtra::column_spec(1:ncol(shrub_Datatable), border_left = TRUE, border_right = TRUE)
+```
