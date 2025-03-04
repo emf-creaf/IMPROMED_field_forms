@@ -12,16 +12,6 @@ library(knitr)
 library(kableExtra)
 ```
 
-```{css, echo=FALSE}
-  /* Ajustar la altura de las celdas */
-  .my-table td, .my-table th {
-    height: 40px; /* Ajusta la altura de las celdas */
-    vertical-align: middle;  /* Centra verticalmente el contenido */
-    text-align: center;      /* Centra el texto horizontalmente */
-  }
-
-```
-
 ### Tree sampling
 
 | Persona | Localidad | Hora | Fecha |
@@ -34,10 +24,10 @@ library(kableExtra)
 
 ####### id: Standing dead are recorded as 888
 
-R5  - [7.5,12.5) dbh;
-R10  - [12.5,22.5) dbh;
-R15  - [22.5,42.5) dbh;
-R25  - >=42.5 dbh
+R < 5 meters; DBH ≥ 75mm . 
+5<R<10 ; DBH ≥ 125mm. 
+10<R<15; DBH  ≥ 225mm. 
+15<R<25 ; DBH  ≥ 425mm 
 
 ```{r, echo=FALSE, warning=FALSE}
 
