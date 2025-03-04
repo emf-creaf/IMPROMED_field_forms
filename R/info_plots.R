@@ -1,20 +1,26 @@
 library(dplyr)
+library(readxl)
 load("data-raw/ifn4_cat.Rdata")
+
 ifn3_cat <- rbind(readRDS("data-raw/ifn3_08.rds"),
                   readRDS("data-raw/ifn3_17.rds"),
                   readRDS("data-raw/ifn3_25.rds"),
                   readRDS("data-raw/ifn3_43.rds"))
 
-plots_ph <- readr::read_csv("data-raw/pinhal_objectiu.csv") |> 
-  dplyr::rename(id_unique_code = id_unique_) |> 
-  sf::st_as_sf(coords = c("coordx", "coordy"), crs = 23031) |> # Asegúrate de que ya esté en ED50 (EPSG:23031)
+parceles_camp <- readr::read_csv("data-raw/parceles_camp.csv")
+
+  
+  plots_ph<-plots_cat |> 
+    dplyr::filter(id_unique_code %in% parceles_camp$id_unique_code ) |> 
+    dplyr::select(id_unique_code, coordx, coordy) |> 
+    sf::st_as_sf(coords = c("coordx", "coordy"), crs = 23031) |> # Asegúrate de que ya esté en ED50 (EPSG:23031)
   dplyr::mutate(
     Provincia = stringr::str_extract(id_unique_code, "^[^_]{2}"), # Primeros 2 caracteres antes de "_"
     Estadillo = stringr::str_extract(id_unique_code, "_\\d{4}_") |> 
       stringr::str_replace_all("_", ""), # 4 dígitos entre "_"
     IDCLASE  = stringr::str_extract(id_unique_code, "_[^_]+$") |> 
       stringr::str_replace_all("_", "") # Últimos caracteres después de "_"
-  ) |> dplyr::select(-plot, province_c, field_1 ) 
+  )
 
 
 # Leer el shapefile (suponiendo que es un shapefile de líneas, puntos, etc.)
@@ -145,3 +151,4 @@ plots_ph_wgs_All <- plots_ph_wgs |>
                                    OrdenIf3, OrdenIf4, Dn1, Dn2, Ht, Agente), 
                    by = c("Provincia", "Estadillo", "IDCLASE")) |>
   tidyr::nest(tree_data = c(Especie, OrdenIf3, OrdenIf4, Dn1, Dn2, Ht, Agente)) 
+
