@@ -16,10 +16,10 @@ plot_tree_data <- function(treeData4, treeData3 = NULL, ingrowth = TRUE, tree_la
     ylab("y (m)")+ xlab("x (m)")+
     theme_classic() +
     theme(
-      axis.title.x = element_text(size = 200 * scale_factor),  # Escala el tamaño del título eje X
-      axis.title.y = element_text(size = 200 * scale_factor),  # Escala el tamaño del título eje Y
-      axis.text.x = element_text(size = 200* scale_factor),   # Escala los valores del eje X
-      axis.text.y = element_text(size = 200* scale_factor)    # Escala los valores del eje Y
+      axis.title.x = element_text(size = 7 * scale_factor),  # Escala el tamaño del título eje X
+      axis.title.y = element_text(size = 7 * scale_factor),  # Escala el tamaño del título eje Y
+      axis.text.x = element_text(size = 8* scale_factor),   # Escala los valores del eje X
+      axis.text.y = element_text(size = 8* scale_factor)    # Escala los valores del eje Y
     )
   
   if(nrow(treeData4) > 0) {
@@ -57,39 +57,27 @@ plot_tree_data <- function(treeData4, treeData3 = NULL, ingrowth = TRUE, tree_la
     } 
     if(nrow(td)>0) {
       g <- g +
-        geom_point(aes(x = x, y = y, size = dbh * scale_factor, col = sp_name, fill = sp_name, shape = status), 
+        geom_point(aes(x = x, y = y, size = dbh , col = sp_name, fill = sp_name, shape = status), 
                    alpha = 0.8,
                    stroke = 1.0, 
                    data = td)
       if(tree_labels) {
         g <- g +
-          ggrepel::geom_text_repel(aes(x = x, y = y, label = tree_ifn4), 
+          # geom_text(aes(x = x, y = y, label = tree_ifn4), size = 2, data = td)
+          ggrepel::geom_text_repel(aes(x = x, y = y, label = tree_ifn4),
          data = td,
-         size = 5 * scale_factor,  # Escala las etiquetas
-         box.padding = 0.5,  
-         max.overlaps = 10,  # Evita solapamientos
-         direction = "both",  # Permite repeler en ambas direcciones
+         size =  5,  # Escala las etiquetas
+         # box.padding = 0.15,
+         max.overlaps = 15,  # Evita solapamientos
+         # direction = "both",  # Permite repeler en ambas direcciones
          max.iter = 300,  # Aumenta las iteraciones si es necesario
-         force = 30,  # Aplica más fuerza de repulsión para separar más las etiquetas
-         segment.colour = "black",  # Color de las líneas
-         segment.size = 0.5) 
+         # force = 20,  # Aplica más fuerza de repulsión para separar más las etiquetas
+         segment.colour = "black"# Color de las líneas
+         )
 
-        # ggrepel::geom_text_repel(aes(x = x, y = y, label = tree_ifn4),
-        #             size = 5* scale_factor,                # Tamaño de las etiquetas
-        #             box.padding = 0.5,         # Aumenta el padding alrededor de las etiquetas
-        #             point.padding = 0.5,       # Aumenta el padding alrededor de los puntos
-        #             force = 10,              # Aumenta la fuerza de repulsión aún más
-        #             # nudge_x = 15,            # Empuja las etiquetas aún más a la derecha
-        #             # nudge_y = 15,            # Empuja las etiquetas aún más hacia arriba
-        #             segment.size = 0.5,      # Grosor de las flechas
-        #             min.segment.length = 1,  # Alarga aún más las flechas
-        #             max.overlaps = 20, # Permite más superposiciones, pero no elimina etiquetas
-        #             direction = "both" ,
-        #             max.iter = 1000, # Aumenta el número de iteraciones para encontrar una distribución adecuada
-        #             data = td)
       }
       g <- g +
-        scale_size_binned("DBH (cm)", range = c(1, 15 * scale_factor)) +
+        scale_size_binned("DBH (cm)", limits = c(7.5, NA)) +
         scale_color_discrete("Species") +
         scale_fill_discrete("Species") +
         scale_shape_manual("Status", values = c("Alive" = 16, "Dead" = 8, "Cut" = 1, "Error" = 0.5)) +
@@ -101,11 +89,13 @@ plot_tree_data <- function(treeData4, treeData3 = NULL, ingrowth = TRUE, tree_la
   g <- g +
     theme_classic() +
     theme(
-      legend.position = "bottom",  # Ubica la leyenda abajo
-      legend.direction = "horizontal",
-      legend.box = "horizontal",
-      legend.text = element_text(size = 15 * scale_factor),  # Escalar texto de la leyenda
-      legend.title = element_text(size = 15 * scale_factor)  # Escalar título de la leyenda
+      legend.position = "right",  # Mueve la leyenda a la derecha
+      legend.direction = "vertical",  # Elementos en vertical (uno debajo del otro)
+      legend.box = "vertical",
+      legend.text = element_text(size = 14* scale_factor),  # Aumenta el tamaño del texto de la leyenda
+      legend.title = element_text(size = 14 * scale_factor),  # Aumenta el tamaño del título de la leyenda
+      # legend.key.width = unit(1, "cm"),  # Ajusta el ancho de los elementos de la leyenda
+      # legend.key.height = unit(1, "cm")  # Escalar título de la leyenda
     )
   
   return(g)

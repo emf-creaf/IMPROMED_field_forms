@@ -67,27 +67,34 @@ regen_data_transformed <- regen_invertedData |>
     height = NULL,
     Num = NULL
   ) |>
-   # Crear columnas de Abundancia separadas por CatDes
+  
+  # Crear columnas de Abundancia separadas por CatDes
   tidyr::pivot_wider(
     names_from = CatDes,  # Los valores de CatDes se convierten en las nuevas columnas
     values_from = Abund,  # Los valores que queremos distribuir son 'Abund'
     names_prefix = "CatDes",  # Prefijo para las nuevas columnas
     values_fill = list(Abund = NA)  # Rellenar los valores vacíos con NA
   ) |>
+  
   dplyr::group_by(sp_name) |>
-  # Rellenar los valores de height_c4 y Abund_c4 para todas las filas
-  tidyr::fill(height_ifn4, .direction = "downup") |>
-  tidyr::fill(CatDes4, .direction = "downup") |>
-  tidyr::fill(CatDes3, .direction = "downup") |>
-  tidyr::fill(CatDes2, .direction = "downup") |>
-  tidyr::fill(CatDes1, .direction = "downup") |>
+  
+  # Rellenar `height_ifn4` en todas las filas
+  tidyr::fill(height_ifn4, .direction = "downup") 
+
+# --- Detectar columnas CatDes presentes ---
+catdes_cols <- c("CatDes1", "CatDes2", "CatDes3", "CatDes4")
+catdes_cols <- catdes_cols[catdes_cols %in% names(regen_data_transformed)]
+
+# Aplicar `fill()` solo en las CatDes detectadas
+for (col in catdes_cols) {
+  regen_data_transformed <- regen_data_transformed |> tidyr::fill(all_of(col), .direction = "downup")
+}
+
+regen_data_transformed <- regen_data_transformed |>
   unique() |>
   dplyr::select(
     sp_name,
-    CatDes1,
-    CatDes2,
-    CatDes3,
-    CatDes4,
+    all_of(catdes_cols),
     height_ifn4
   )
 # Mostrar el resultado

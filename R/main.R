@@ -1,6 +1,7 @@
 # library(forestables)
 library(readr)
 library(sf)
+library(dplyr)
 source("R/plot_tree_data.R")
 source("R/info_plots.R")
 load("data-raw/ifn4_cat.Rdata")
@@ -29,7 +30,7 @@ for(id in IDs)  {
   pagedown::chrome_print(paste0("forms/", id, "/tree_table.html"))
 }
 
-for(id in IDs)  {
+for(id in IDs[10:length(IDs)])  {
   output_dir <- file.path("forms", id)
   if(!dir.exists(output_dir)) dir.create(output_dir)
   rmarkdown::render(input = "Rmd/regen_shrub_ifn4.Rmd",output_file = file.path("..", output_dir, "regen_shrub_ifn4.html"))

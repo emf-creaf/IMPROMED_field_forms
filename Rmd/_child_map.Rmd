@@ -7,6 +7,7 @@ output: html_document
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(out.width="85%")
 library(dplyr)
 library(knitr)
 library(kableExtra)
@@ -44,7 +45,7 @@ if(length(sel3) == 1) treeData3 <- ifn3_cat$tree[[sel3]]
 |---------|-----------|------|-------|
 |         |           |      |       |
 
-<br> <br> <br>
+<br>
 
 ###### `r paste0("Municipio: ",municipio)`
 
@@ -60,8 +61,8 @@ if(length(sel3) == 1) treeData3 <- ifn3_cat$tree[[sel3]]
 
 <br>
 
-```{r, echo=FALSE, fig = TRUE, fig.width=40, fig.height = 25, warning=FALSE}
-plot_tree_data(treeData4, treeData3,scale_factor = 2.5)
+```{r, echo=FALSE, fig = TRUE, fig.width=13, fig.height=10, fig.align="center", warning=FALSE}
+plot_tree_data(treeData4, treeData3,scale_factor = 1)
 ```
 
 ```{r, echo=FALSE,  warning=FALSE}
