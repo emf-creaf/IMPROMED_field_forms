@@ -11,10 +11,11 @@ ifn3_cat <- rbind(readRDS("data-raw/ifn3_08.rds"),
                   readRDS("data-raw/ifn3_43.rds"))
 
 
-IDs <- plots_ph$id_unique_code
+IDs <- parceles_camp$id_unique_code
 
 
-for(id in IDs)  {
+
+for(id in IDs[1])  {
   output_dir <- file.path("forms", id)
   if(!dir.exists(output_dir)) dir.create(output_dir)
   rmarkdown::render(input = "Rmd/_child_map.Rmd",output_file = file.path("..", output_dir, "plot_location.html"))

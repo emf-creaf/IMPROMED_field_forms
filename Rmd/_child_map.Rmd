@@ -85,7 +85,7 @@ plots_ph_topo<-plots_ph_wgs_All |>
 ```
 
 ```{r, echo=FALSE,  warning=FALSE}
-knitr::kable(plots_ph_topo, caption = "Topo table", format = "html") |> 
+knitr::kable(plots_ph_topo, format = "html") |> 
   kableExtra::kable_styling(
     bootstrap_options = c("striped", "hover"),
     full_width = TRUE,  # La tabla ocupará todo el espacio disponible
@@ -99,3 +99,17 @@ knitr::kable(plots_ph_topo, caption = "Topo table", format = "html") |>
 ###### stratification
 
 ###### 1 (0 \< H ≤ 1/4 Ho) [ ] 2 (1/4 \< H ≤ 1/2 Ho) [ ]3 (1/2 \< H ≤ 3/4 Ho) [ ] 4 (3/4 \< H ≤ Ho) [ ]5 ( Hem \> Ho) [ ]
+
+<br>
+
+```{r, echo=FALSE, fig = TRUE,  warning=FALSE}
+
+obser<-plots_ph_wgs_All |> 
+  dplyr::filter(
+    id_unique_code == id
+  ) |> 
+  dplyr::select(
+    Obser
+  ) |> pull()
+print(obser)
+```

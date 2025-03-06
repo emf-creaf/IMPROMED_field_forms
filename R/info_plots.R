@@ -7,7 +7,8 @@ ifn3_cat <- rbind(readRDS("data-raw/ifn3_08.rds"),
                   readRDS("data-raw/ifn3_25.rds"),
                   readRDS("data-raw/ifn3_43.rds"))
 
-parceles_camp <- readr::read_csv("data-raw/parceles_camp.csv")
+parceles_camp <- readr::read_csv("data-raw/parceles_camp.csv") 
+parceles_camp[8,]<-"08_3332_NN_A1_A1"
 
   
   plots_ph<-plots_cat |> 
@@ -114,7 +115,7 @@ plots_ph_wgs_All <- plots_ph_wgs |>
                      dplyr::select(
                        IDCLASE,Provincia,Estadillo,
                        Rocosid, FccArb,Orienta1, MaxPend1,
-                       Localiza, Acceso,Levanta 
+                       Localiza, Acceso,Levanta, Obser
                      ), by = c("Provincia", "Estadillo", "IDCLASE")) |> 
   dplyr::mutate(Orienta1 = Orienta1 * 9 / 10,
                 Localiza = dplyr::case_when(

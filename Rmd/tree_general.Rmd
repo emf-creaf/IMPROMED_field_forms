@@ -39,7 +39,7 @@ tree_Datatable <- data.frame() |>
     dbh =  character(),
     green_percentage =  character(),
     brown_percentage =  character(),
-    Causal_agent = character(), 
+    causal_agent = character(), 
     snag_status =  character()
     ) 
 
@@ -52,8 +52,7 @@ tree_Datatable <- tree_Datatable |>
     dbh = rep("   ", 40),
     green_percentage = rep("   ", 40),
     brown_percentage = rep("   ", 40),
-    height_cat4 = rep("   ", 40),
-    Causal_agent = rep("   ", 40), 
+    causal_agent = rep("   ", 40), 
     snag_status = rep("    ", 40)
   )) 
   
