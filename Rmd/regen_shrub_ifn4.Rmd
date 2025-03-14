@@ -105,7 +105,7 @@ regen_data_transformed <- regen_data_transformed |>
 ```
 
 
-#### `r paste0("Número de la parcela: ",id)`
+#### `r paste0("Plot number: ",id)`
 
 
 

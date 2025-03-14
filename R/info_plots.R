@@ -7,8 +7,13 @@ ifn3_cat <- rbind(readRDS("data-raw/ifn3_08.rds"),
                   readRDS("data-raw/ifn3_25.rds"),
                   readRDS("data-raw/ifn3_43.rds"))
 
-parceles_camp <- readr::read_csv("data-raw/parceles_camp.csv") 
-parceles_camp[8,]<-"08_3332_NN_A1_A1"
+
+parceles_camp <- readr::read_delim(
+  "data-raw/coords_obj_control_pinhal.csv", 
+  delim = ";", escape_double = FALSE,
+  trim_ws = TRUE) 
+parceles_camp <- parceles_camp[-c(38, 40,42), ]
+
 
   
   plots_ph<-plots_cat |> 

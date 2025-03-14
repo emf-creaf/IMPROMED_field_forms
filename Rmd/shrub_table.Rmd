@@ -15,7 +15,7 @@ library(kableExtra)
 
 ### Shrub sampling
 
-| Persona | Localidad | Hora | Fecha |
+|  Name   |  Place    | Time | Date  |
 |---------|-----------|------|-------|
 |         |           |      |       |
 
@@ -24,7 +24,7 @@ library(kableExtra)
 <br>
 
 
-#### `r paste0("Número de la parcela: ")`
+#### `r paste0("PLOT NUMBER: ")`
 
 #### Shrub sampling within the 10m radius plot 
 
@@ -41,13 +41,14 @@ library(kableExtra)
 # Agregar 40 filas vacías
 shrub_Datatable <- shrub_Datatable |>
   dplyr::bind_rows(data.frame(
-    sp_name = rep(" ", 40),
-    cover = rep(" ", 40),
-    height = rep(" ", 40)
+    sp_name = rep(" ", 30),
+    cover = rep(" ", 30),
+    height = rep(" ", 30)
   ))
 
 
 ```
+
 
 
 ```{r, echo=FALSE, warning=FALSE}
@@ -60,3 +61,6 @@ knitr::kable(shrub_Datatable,  format = "html") |>
   ) |> 
   kableExtra::column_spec(1:ncol(shrub_Datatable), border_left = TRUE, border_right = TRUE)
 ```
+<br>
+Comments:
+<br>

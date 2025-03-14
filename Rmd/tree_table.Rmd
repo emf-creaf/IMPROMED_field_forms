@@ -45,16 +45,15 @@ treeData4<-treeData4 |>
 
 ```
 
-| Persona | Localidad | Hora | Fecha |
+|  Name   | Place     | Time | Date  |
 |---------|-----------|------|-------|
 |         |           |      |       |
 
 <br>
-<br>
-<br>
 
 
-#### `r paste0("Número de la parcela: ",id)`
+
+#### `r paste0("Plot number: ",id)`
 ####### id: Standing dead are recorded as 888
 
 R < 5 meters; DBH ≥ 75mm . 
@@ -73,9 +72,9 @@ treeData4_table<- treeData4 |>
     causal_agent 
   ) |> 
   dplyr::mutate(
-    dbh = " ",
-    green_percentage = " ",
-    brown_percentage = " ",
+    diameter = " ",
+    'green%' = " ",
+    'brown%' = " ",
     Causal_agent = " ", 
     snag_status = " "
     ) |> 
@@ -94,21 +93,25 @@ empty_table <- treeData4_table  |>
   dplyr::mutate(
     id = " ",
     sp = " ",
+    distance = " ",
+    azimuth = " "
   ) |> 
   dplyr::select(
     id,
     sp,
-    dbh,
-    green_percentage,
-    brown_percentage,
+    diameter,
+    'green%',
+    'brown%',
     Causal_agent,
-    snag_status
+    snag_status,
+    distance,
+    azimuth
   ) |> 
   
   dplyr::mutate(across(everything(), ~ ""))  # Rellenar todas las celdas con vacío
 
 # Establecer una nueva cabecera similar a la de la tabla anterior (puedes modificarla si es necesario)
-colnames(empty_table) <- c("id", "sp", "dbh", "green_percentage", "brown_percentage",  "Causal_agent", "snag_status") 
+colnames(empty_table) <- c("id", "sp", "diameter", "green%", "brown%",  "Causal_agent", "snag_status","distance", "azimuth") 
 
 # Asegurarse de que la tabla tenga al menos 30 filas
 num_rows <- nrow(empty_table)
@@ -145,7 +148,10 @@ knitr::kable(treeData4_table, caption = "Tree table", format = "html") |>
   ) |> 
   kableExtra::column_spec(1:ncol(treeData4_table), border_left = TRUE, border_right = TRUE)
 # Crear la tabla con kableExtra para la nueva tabla vacía
+```
 
+
+```{r, echo=FALSE, warning=FALSE}
 knitr::kable(empty_table, format = "html") |> 
   kableExtra::kable_styling(
     bootstrap_options = c("striped", "hover"),
@@ -156,4 +162,4 @@ knitr::kable(empty_table, format = "html") |>
   kableExtra::column_spec(1, width = "80px", border_left = TRUE, border_right = TRUE) |>  # Primera columna
   kableExtra::column_spec(2, width = "150px", border_left = TRUE, border_right = TRUE) |>  # Segunda columna (más ancha para dos palabras)
   kableExtra::column_spec(3:ncol(empty_table), width = "80px", border_left = TRUE, border_right = TRUE)  # Otras columnas con espacio para 4 dígitos
-
+```

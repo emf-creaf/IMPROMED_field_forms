@@ -21,7 +21,7 @@ i <- which(plots_cat$id_unique_code==id)
 
 ```
 
-| Persona | Localidad | Hora | Fecha |
+|  Name   |  Place    | Time | Date  |
 |---------|-----------|------|-------|
 |         |           |      |       |
 
@@ -30,7 +30,7 @@ i <- which(plots_cat$id_unique_code==id)
 <br>
 
 
-#### `r paste0("Número de la parcela: ")`
+#### `r paste0("PLOT NUMBER: ")`
 
 #### Regeneration sampling within the 5m radius plot 
 
@@ -53,12 +53,12 @@ regen_Datatable <- data.frame() |>
 # Agregar 40 filas vacías
 regen_Datatable <- regen_Datatable |>
   dplyr::bind_rows(data.frame(
-    sp_name = rep(" ", 40),
-    Catdes1 = rep(" ", 40),
-    Catdes2 = rep(" ", 40),
-    Catdes3 = rep(" ", 40),
-    Catdes4 = rep(" ", 40),
-    height_cat4 = rep(" ", 40)
+    sp_name = rep(" ", 30),
+    Catdes1 = rep(" ", 30),
+    Catdes2 = rep(" ", 30),
+    Catdes3 = rep(" ", 30),
+    Catdes4 = rep(" ", 30),
+    height_cat4 = rep(" ", 30)
   ))
 
 
@@ -78,4 +78,6 @@ knitr::kable(regen_Datatable,  format = "html") |>
   ) |> 
   kableExtra::column_spec(1:ncol(regen_Datatable), border_left = TRUE, border_right = TRUE)
 ```
-
+<br>
+Comments:
+<br>

@@ -41,19 +41,19 @@ if(length(sel3) == 1) treeData3 <- ifn3_cat$tree[[sel3]]
 
 ```
 
-| Persona | Localidad | Hora | Fecha |
+|  Name   | Place     | Time | Date  |
 |---------|-----------|------|-------|
 |         |           |      |       |
 
 <br>
 
-###### `r paste0("Municipio: ",municipio)`
+###### `r paste0("Municipality: ",municipio)`
 
-###### `r paste0("Número de la parcela: ",id)`
+###### `r paste0("Plot number : ",id)`
 
-###### `r paste0("Coordenadas de la parcela en  LON ,LAT: (", coords$lon_wgs84 , ", ", coords$lat_wgs84 , ")")`
+###### `r paste0("Coordinates LON ,LAT: (", coords$lon_wgs84 , ", ", coords$lat_wgs84 , ")")`
 
-###### `r paste0("Coordenadas de la parcela en  UTM ED50: (", coords$coordx_ed50  , ", ", coords$coordy_ed50  , ")")`
+###### `r paste0("Coordinates UTM ED50: (", coords$coordx_ed50  , ", ", coords$coordy_ed50  , ")")`
 
 ###### Coordenadas GPS:
 

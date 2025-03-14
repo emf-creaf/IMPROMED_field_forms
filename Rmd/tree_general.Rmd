@@ -12,15 +12,15 @@ library(knitr)
 library(kableExtra)
 ```
 
-### Tree sampling
+### Tree sampling (new individuals)
 
-| Persona | Localidad | Hora | Fecha |
+|  Name   | Place     | Time | Date  |
 |---------|-----------|------|-------|
 |         |           |      |       |
 
 <br>
 
-#### `r paste0("Número de la parcela:")`
+#### `r paste0("PLOT NUMBER:")`
 
 ####### id: Standing dead are recorded as 888
 
@@ -32,29 +32,32 @@ R < 5 meters; DBH ≥ 75mm .
 ```{r, echo=FALSE, warning=FALSE}
 
 #opcion 2
-tree_Datatable <- data.frame() |>
-  dplyr::mutate(
-    id = character(),
-    sp = character(),
-    dbh =  character(),
-    green_percentage =  character(),
-    brown_percentage =  character(),
-    causal_agent = character(), 
-    snag_status =  character()
-    ) 
+# tree_Datatable <- data.frame() |>
+#   dplyr::mutate(
+#     id = character(),
+#     sp = character(),
+#     dbh =  character(),
+#     'green%' =  character(),
+#     'brown%' =  character(),
+#     causal_agent = character(), 
+#     snag_status =  character(),
+#     distance =  character(),
+#     azimuth = character()
+#     ) 
 
 
 # Agregar 60 filas vacías
-tree_Datatable <- tree_Datatable |>
-  dplyr::bind_rows(data.frame(
+tree_Datatable <- data.frame(
     id = rep("   ", 40),
     sp = rep("   ", 40),
     dbh = rep("   ", 40),
-    green_percentage = rep("   ", 40),
-    brown_percentage = rep("   ", 40),
+    'green.p' = rep(" ", 40),
+    'brown.p' = rep(" ", 40),
     causal_agent = rep("   ", 40), 
-    snag_status = rep("    ", 40)
-  )) 
+    snag_status = rep("    ", 40),
+    distance =  rep("    ", 40),
+    azimuth = rep("    ", 40)
+  )
   
 
 
