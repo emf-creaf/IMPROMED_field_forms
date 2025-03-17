@@ -22,6 +22,7 @@ IDs <- parceles_camp$id_unique_code
 
 IDs <- grep("^08", IDs, value = TRUE)
 
+IDs <- "08_3457_NN_A1_A1"
 
 for(id in IDs)  {
   output_dir <- file.path("forms", id)
