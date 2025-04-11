@@ -31,13 +31,16 @@ treeData4 <- plots_cat$tree[[i]]
       dplyr::mutate(
         sp_code = as.character(as.numeric(sp_code)),
         tree_ifn4 = as.integer(tree_ifn4),
-        tree_ifn3 = as.integer(tree_ifn3)
+        tree_ifn3 = as.integer(tree_ifn3),
       ) |> 
    dplyr::select(
      tree_ifn4, tree_ifn3, sp_code,causal_agent
    )
 
 treeData4<-treeData4 |> 
+  dplyr::mutate(
+    azimuth = azimuth*0.9
+  ) |> 
   dplyr::left_join(
     plots_tree, 
     by = c("tree_ifn4",
@@ -69,7 +72,9 @@ treeData4_table<- treeData4 |>
     sp_name,
     height,
     dbh_ifn4 = dbh,
-    causal_agent 
+    causal_agent,
+    distance,
+    azimuth
   ) |> 
   dplyr::mutate(
     diameter = " ",

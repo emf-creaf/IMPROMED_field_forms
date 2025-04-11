@@ -28,7 +28,7 @@ sel3 <- which(ifn3_cat$id_unique_code==id)
 coords<-plots_ph_wgs |> 
   dplyr::filter(id_unique_code  == id
   ) |> 
-  dplyr::select(lon_wgs84 ,lat_wgs84,coordx_ed50,coordy_ed50  ) 
+  dplyr::select(lon_wgs84 ,lat_wgs84,coordx_etrs89,coordy_etrs89  ) 
 
 
 municipio<-plots_ph_wgs |> 
@@ -53,7 +53,7 @@ if(length(sel3) == 1) treeData3 <- ifn3_cat$tree[[sel3]]
 
 ###### `r paste0("Coordinates LON ,LAT: (", coords$lon_wgs84 , ", ", coords$lat_wgs84 , ")")`
 
-###### `r paste0("Coordinates UTM ED50: (", coords$coordx_ed50  , ", ", coords$coordy_ed50  , ")")`
+###### `r paste0("Coordinates UTM etrs89: (", coords$coordx_etrs89  , ", ", coords$coordy_etrs89  , ")")`
 
 ###### Coordenadas GPS:
 

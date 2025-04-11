@@ -17,11 +17,9 @@ parceles_camp <- readr::read_delim(
   delim = ";", escape_double = FALSE,
   trim_ws = TRUE) 
 
-parceles_camp <- parceles_camp[-c(38, 40,42), ]
-IDs <- parceles_camp$id_unique_code
 
-IDs <- grep("^08", IDs, value = TRUE)
-
+ IDs <- parceles_camp$id_unique_code
+ IDs <- grep("^43", IDs, value = TRUE)
 
 for(id in IDs)  {
   output_dir <- file.path("forms", id)

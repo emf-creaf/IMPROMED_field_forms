@@ -48,7 +48,7 @@ plot_tree_data <- function(treeData4, treeData3 = NULL, ingrowth = TRUE, tree_la
                     !is.na(sp_name),
                     !is.na(distance),
                     !is.na(azimuth)) |>
-      dplyr::mutate(azimuth_rad = azimuth*pi/180,
+      dplyr::mutate(azimuth_rad = azimuth*pi/200,
                     x = sin(azimuth_rad)*distance,
                     y = cos(azimuth_rad)*distance)
     if(!ingrowth)  {

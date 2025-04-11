@@ -12,14 +12,14 @@ parceles_camp <- readr::read_delim(
   "data-raw/coords_obj_control_pinhal.csv", 
   delim = ";", escape_double = FALSE,
   trim_ws = TRUE) 
-parceles_camp <- parceles_camp[-c(38, 40,42), ]
+# parceles_camp <- parceles_camp[-c(38, 40,42), ]
 
 
   
   plots_ph<-plots_cat |> 
     dplyr::filter(id_unique_code %in% parceles_camp$id_unique_code ) |> 
     dplyr::select(id_unique_code, coordx, coordy) |> 
-    sf::st_as_sf(coords = c("coordx", "coordy"), crs = 23031) |> # Asegúrate de que ya esté en ED50 (EPSG:23031)
+    sf::st_as_sf(coords = c("coordx", "coordy"), crs = 25831  ) |> # Asegúrate de que ya esté en ED50 (EPSG:23031)
   dplyr::mutate(
     Provincia = stringr::str_extract(id_unique_code, "^[^_]{2}"), # Primeros 2 caracteres antes de "_"
     Estadillo = stringr::str_extract(id_unique_code, "_\\d{4}_") |> 
@@ -31,7 +31,7 @@ parceles_camp <- parceles_camp[-c(38, 40,42), ]
 
 # Leer el shapefile (suponiendo que es un shapefile de líneas, puntos, etc.)
 municipis <- sf::st_read("data-raw/divisions-administratives/divisions-administratives-v2r1-municipis-5000-20230928.shp")
-municipis_transformed <- sf::st_transform(municipis, crs = 23031)
+municipis_transformed <- sf::st_transform(municipis, crs = 25831  )
 
 
 plots_ph <- sf::st_join(plots_ph, municipis_transformed |> 
@@ -39,7 +39,7 @@ plots_ph <- sf::st_join(plots_ph, municipis_transformed |>
 
 ENP<- sf::st_read("data-raw/enp-shp/Enp2023_P.shp") |> 
   dplyr::filter(NUT2== "51")
-ENP <- sf::st_transform(ENP, crs = 23031)
+ENP <- sf::st_transform(ENP, crs = 25831)
 
 
   
@@ -50,8 +50,8 @@ ENP <- sf::st_transform(ENP, crs = 23031)
 # Extraer las coordenadas en ED50 (EPSG:23031) y guardarlas
 plots_ph <- plots_ph |>
   dplyr::mutate(
-    coordx_ed50 = sf::st_coordinates(plots_ph)[,1],  # Extrae la coordenada X (longitud en ED50)
-    coordy_ed50 = sf::st_coordinates(plots_ph)[,2]   # Extrae la coordenada Y (latitud en ED50)
+    coordx_etrs89 = sf::st_coordinates(plots_ph)[,1],  # Extrae la coordenada X (longitud en etrs89 )
+    coordy_etrs89 = sf::st_coordinates(plots_ph)[,2]   # Extrae la coordenada Y (latitud en etrs89 )
   )
 
 
