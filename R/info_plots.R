@@ -154,7 +154,7 @@ plots_ph_wgs_All <- plots_ph_wgs |>
   # Unir treeDataIFN4_Catalunya y agrupar en un sub-data frame
   dplyr::left_join(treeDataIFN4_Catalunya |> 
                      dplyr::select(IDCLASE, Provincia, Estadillo, Especie, 
-                                   OrdenIf3, OrdenIf4, Dn1, Dn2, Ht, Agente), 
+                                   OrdenIf3, OrdenIf4, Dn1, Dn2, Ht, Agente, Distanci, Rumbo), 
                    by = c("Provincia", "Estadillo", "IDCLASE")) |>
-  tidyr::nest(tree_data = c(Especie, OrdenIf3, OrdenIf4, Dn1, Dn2, Ht, Agente)) 
+  tidyr::nest(tree_data = c(Especie, OrdenIf3, OrdenIf4, Dn1, Dn2, Ht, Agente, Distanci, Rumbo)) 
 

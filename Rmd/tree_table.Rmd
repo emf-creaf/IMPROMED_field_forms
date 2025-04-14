@@ -26,8 +26,10 @@ treeData4 <- plots_cat$tree[[i]]
       tidyr::unnest(tree_data) |> 
       dplyr::rename(tree_ifn4 = OrdenIf4, 
                     tree_ifn3 = OrdenIf3,
-                    causal_agent =Agente,
-                    sp_code = "Especie") |> 
+                    causal_agent = Agente,
+                    sp_code = "Especie", 
+                    distance = "Distanci",
+                    azimuth = "Rumbo") |> 
       dplyr::mutate(
         sp_code = as.character(as.numeric(sp_code)),
         tree_ifn4 = as.integer(tree_ifn4),
@@ -80,7 +82,7 @@ treeData4_table<- treeData4 |>
     diameter = " ",
     'green%' = " ",
     'brown%' = " ",
-    Causal_agent = " ", 
+    causal_agent = " ", 
     snag_status = " "
     ) |> 
   dplyr::arrange( 
@@ -107,7 +109,7 @@ empty_table <- treeData4_table  |>
     diameter,
     'green%',
     'brown%',
-    Causal_agent,
+    causal_agent,
     snag_status,
     distance,
     azimuth
@@ -116,7 +118,7 @@ empty_table <- treeData4_table  |>
   dplyr::mutate(across(everything(), ~ ""))  # Rellenar todas las celdas con vacío
 
 # Establecer una nueva cabecera similar a la de la tabla anterior (puedes modificarla si es necesario)
-colnames(empty_table) <- c("id", "sp", "diameter", "green%", "brown%",  "Causal_agent", "snag_status","distance", "azimuth") 
+colnames(empty_table) <- c("id", "sp", "diameter", "green%", "brown%",  "causal_agent", "snag_status","distance", "azimuth") 
 
 # Asegurarse de que la tabla tenga al menos 30 filas
 num_rows <- nrow(empty_table)
