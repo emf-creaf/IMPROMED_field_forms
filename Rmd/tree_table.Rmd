@@ -82,7 +82,7 @@ treeData4_table<- treeData4 |>
     diameter = " ",
     'green%' = " ",
     'brown%' = " ",
-    causal_agent = " ", 
+    Causal_agent = " ", 
     snag_status = " "
     ) |> 
   dplyr::arrange( 
