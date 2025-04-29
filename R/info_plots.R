@@ -8,16 +8,26 @@ ifn3_cat <- rbind(readRDS("data-raw/ifn3_08.rds"),
                   readRDS("data-raw/ifn3_43.rds"))
 
 
+
 parceles_camp <- readr::read_delim(
-  "data-raw/coords_obj_control_pinhal.csv", 
-  delim = ";", escape_double = FALSE,
-  trim_ws = TRUE) 
-# parceles_camp <- parceles_camp[-c(38, 40,42), ]
+  "data-raw/parcelas_psylvestris_osona.csv", 
+  delim = ",", escape_double = FALSE,
+  trim_ws = TRUE) |> 
+  dplyr::rename(
+    id_unique_code = id_unique_
+  )
 
 
+
+IDs <- parceles_camp$id_unique_code
+
+codigos_en_df <- IDs[IDs %in% plots_cat$id_unique_code]
+
+# Códigos que NO están en la columna
+codigos_no_en_df <- IDs[!IDs %in% plots_cat$id_unique_code]
   
   plots_ph<-plots_cat |> 
-    dplyr::filter(id_unique_code %in% parceles_camp$id_unique_code ) |> 
+    dplyr::filter(id_unique_code %in% codigos_en_df ) |> 
     dplyr::select(id_unique_code, coordx, coordy) |> 
     sf::st_as_sf(coords = c("coordx", "coordy"), crs = 25831  ) |> # Asegúrate de que ya esté en ED50 (EPSG:23031)
   dplyr::mutate(

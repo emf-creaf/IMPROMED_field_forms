@@ -113,6 +113,11 @@ regen_data_transformed <- regen_data_transformed |>
 
 shrubData4<-plots_cat$understory[[i]]$shrub[[1]]
 
+if (nrow(shrubData4) == 0) {
+  cat(paste0("No se han podido obtener datos de arbustos para la parcela ", id, "\n"))
+}
+
+
 shrubData_table<- shrubData4 |> 
   # dplyr::mutate(
   #   sp_new = " ",
