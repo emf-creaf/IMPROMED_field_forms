@@ -14,7 +14,7 @@ ifn3_cat <- rbind(readRDS("data-raw/ifn3_08.rds"),
 
 parceles_camp <- readr::read_delim(
   "data-raw/parcelas_psylvestris_osona.csv", 
-  delim = ",", escape_double = FALSE,
+  delim = ";", escape_double = FALSE,
   trim_ws = TRUE) |> 
   dplyr::rename(
     id_unique_code = id_unique_
@@ -22,7 +22,7 @@ parceles_camp <- readr::read_delim(
 
 
 
- IDs <- parceles_camp$id_unique_code
+ IDs <- parceles_camp$id_unique_code[132:136]
 #  IDs <- grep("^43", IDs, value = TRUE)
 # IDs<- c("43_0521_NN_A1_A1","43_0545_NN_A1_A1", "25_3317_NN_A1_A1")
  
