@@ -12,14 +12,20 @@ ifn3_cat <- rbind(readRDS("data-raw/ifn3_08.rds"),
                   readRDS("data-raw/ifn3_43.rds"))
 
 
-parceles_camp <-readr::read_delim(
-  "data-raw/coords_control_objetivo_osona_prades.csv", 
-  delim = ";", escape_double = FALSE, trim_ws = TRUE)|> 
-  dplyr::rename(
-    id_unique_code = id_unique_
-  )
+# 
+# parceles_camp <-readr::read_delim(
+#   "data-raw/coords_control_objetivo_osona_prades.csv", 
+#   delim = ";", escape_double = FALSE, trim_ws = TRUE)|> 
+#   dplyr::rename(
+#     id_unique_code = id_unique_
+#   )
 
 
+parceles_camp <- readr::read_csv(
+  "data-raw/parcelas_control_pinus_sylvestris_all.csv") |>    
+    dplyr::rename(
+      id_unique_code = id_unique_
+    )
 
  codigos_en_df <- IDs[IDs %in% plots_cat$id_unique_code]
  
