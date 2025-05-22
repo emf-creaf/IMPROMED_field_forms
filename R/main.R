@@ -20,13 +20,27 @@ ifn3_cat <- rbind(readRDS("data-raw/ifn3_08.rds"),
 #     id_unique_code = id_unique_
 #   )
 
-
-parceles_camp <- readr::read_csv(
-  "data-raw/parcelas_control_pinus_sylvestris_all.csv") |>    
+parcelas_pinus_sylvestris <- read_delim(
+  "data-raw/parcelas_pinus_sylvestris.csv", 
+  delim = ";", escape_double = FALSE, trim_ws = TRUE) |> 
     dplyr::rename(
       id_unique_code = id_unique_
     )
 
+IDs<- c( "25_2378_NN_A1_A1",
+         "25_2379_NN_A1_A1",
+         "25_4348_xx_NN_A1",
+         "25_2361_NN_A1_A1",
+         "25_2053_NN_A1_A1",
+         "25_2071_NN_A1_A1",
+         "25_2070_NN_A1_A1",
+         "25_2090_NN_A1_A1",
+         "25_2427_NN_A1_A1",
+         "25_4349_xx_NN_A1",
+         "25_1862_NN_A1_A1",
+         "25_1429_NN_A1_A1",
+         "25_2068_NN_A1_A1",
+         "25_2433_NN_A1_A1")
  codigos_en_df <- IDs[IDs %in% plots_cat$id_unique_code]
  
  # Códigos que NO están en la columna

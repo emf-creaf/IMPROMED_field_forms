@@ -10,8 +10,9 @@ ifn3_cat <- rbind(readRDS("data-raw/ifn3_08.rds"),
 
 
 
-parceles_camp <- readr::read_csv(
-  "data-raw/parcelas_control_pinus_sylvestris_all.csv") |>    
+parceles_camp <- read_delim(
+  "data-raw/parcelas_pinus_sylvestris.csv", 
+  delim = ";", escape_double = FALSE, trim_ws = TRUE) |> 
   dplyr::rename(
     id_unique_code = id_unique_
   )
