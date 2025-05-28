@@ -27,20 +27,33 @@ parcelas_pinus_sylvestris <- read_delim(
       id_unique_code = id_unique_
     )
 
-IDs<- c( "25_2378_NN_A1_A1",
-         "25_2379_NN_A1_A1",
-         "25_4348_xx_NN_A1",
-         "25_2361_NN_A1_A1",
-         "25_2053_NN_A1_A1",
-         "25_2071_NN_A1_A1",
-         "25_2070_NN_A1_A1",
-         "25_2090_NN_A1_A1",
-         "25_2427_NN_A1_A1",
-         "25_4349_xx_NN_A1",
-         "25_1862_NN_A1_A1",
-         "25_1429_NN_A1_A1",
-         "25_2068_NN_A1_A1",
-         "25_2433_NN_A1_A1")
+
+IDs<- c( "25_1094_NN_A1_A1",
+         "25_1096_NN_A1_A1",
+         "25_1062_NN_A1_A1",
+         "25_4199_xx_NN_A1",
+         "25_1072_NN_A1_A1",
+         "25_1076_xx_A4_A1",
+         "25_1077_NN_A1_A1",
+         "25_1066_NN_A1_A1",
+         "25_1572_xx_A4_A1",
+         "25_1577_xx_A4_A1",
+         "25_1114_NN_A1_A1",
+         "25_1127_NN_A1_A1",
+         "25_0960_NN_A1_A1",
+         "25_0950_NN_A1_A1",
+         "25_0936_NN_A1_A1",
+         "25_0929_NN_A1_A1",
+         "25_0916_xx_A4_A1",
+         "25_4184_xx_NN_A1",
+         "25_0898_NN_A1_A1"
+         )
+
+# ids_25 <- parcelas_pinus_sylvestris$id_unique_code[grepl("^25", parcelas_pinus_sylvestris$id_unique_code)]
+# 
+# # Excluir los que ya están en la lista 'IDs'
+# ids_25_filtrados <- ids_25[!ids_25 %in% IDs]
+
  codigos_en_df <- IDs[IDs %in% plots_cat$id_unique_code]
  
  # Códigos que NO están en la columna
