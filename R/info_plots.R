@@ -8,23 +8,29 @@ ifn3_cat <- rbind(readRDS("data-raw/ifn3_08.rds"),
                   readRDS("data-raw/ifn3_43.rds"))
 
 
+# 
+# 
+# parceles_camp <- readr::read_delim(
+#   "data-raw/parcelas_pinus_sylvestris.csv", 
+#   delim = ";", escape_double = FALSE, trim_ws = TRUE) |> 
+#   dplyr::rename(
+#     id_unique_code = id_unique_
+#   )
 
+llista_pinus_nigra<- read_excel("llista_pinus_nigra_deboscat_TableToExcel.xlsx")
 
-parceles_camp <- read_delim(
-  "data-raw/parcelas_pinus_sylvestris.csv", 
-  delim = ";", escape_double = FALSE, trim_ws = TRUE) |> 
-  dplyr::rename(
-    id_unique_code = id_unique_
-  )
-
-
-IDs <- parceles_camp$id_unique_code
-
+ # IDs<- llista_pinus_nigra$id_unique_code
+ # 
+ # control_pinus_nigra <- read_excel("preseleccio_buffer_pinnig_control_TableToExcel.xlsx")
+ # 
+ IDs<- control_pinus_nigra$id_unique_code
+ 
 codigos_en_df <- IDs[IDs %in% plots_cat$id_unique_code]
 
 # Códigos que NO están en la columna
 codigos_no_en_df <- IDs[!IDs %in% plots_cat$id_unique_code]
   
+
   plots_ph<-plots_cat |> 
     dplyr::filter(id_unique_code %in% codigos_en_df ) |> 
     dplyr::select(id_unique_code, coordx, coordy) |> 

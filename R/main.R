@@ -28,25 +28,14 @@ parcelas_pinus_sylvestris <- read_delim(
     )
 
 
-IDs<- c( "25_1094_NN_A1_A1",
-         "25_1096_NN_A1_A1",
-         "25_1062_NN_A1_A1",
-         "25_4199_xx_NN_A1",
-         "25_1072_NN_A1_A1",
-         "25_1076_xx_A4_A1",
-         "25_1077_NN_A1_A1",
-         "25_1066_NN_A1_A1",
-         "25_1572_xx_A4_A1",
-         "25_1577_xx_A4_A1",
-         "25_1114_NN_A1_A1",
-         "25_1127_NN_A1_A1",
-         "25_0960_NN_A1_A1",
-         "25_0950_NN_A1_A1",
-         "25_0936_NN_A1_A1",
-         "25_0929_NN_A1_A1",
-         "25_0916_xx_A4_A1",
-         "25_4184_xx_NN_A1",
-         "25_0898_NN_A1_A1"
+IDs<- c( "08_1338_NN_A1_A1",
+         "08_2144_NN_A1_A1",
+         "08_4048_xx_NN_A1",
+         "08_1883_NN_A1_A1",
+         "08_2211_xx_A4_A1",
+         "08_1879_NN_A1_A1",
+         "08_1890_NN_A1_A1",
+         "08_1146_NN_A1_A1"
          )
 
 # ids_25 <- parcelas_pinus_sylvestris$id_unique_code[grepl("^25", parcelas_pinus_sylvestris$id_unique_code)]
